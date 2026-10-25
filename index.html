@@ -31,7 +31,7 @@ header { display: flex; align-items: center; justify-content: space-between; }
 h1 { margin: 0; font-size: 28px; letter-spacing: .5px; }
 h1 span { display: inline-block; animation: beat 1.6s ease-in-out infinite; }
 .hbtns { display: flex; gap: 8px; }
-#mute, #help, #install { border: 0; background: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px #0001; }
+#mute, #help, #install, #diaryBtn { border: 0; background: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px #0001; }
 #helpBox { border: 0; border-radius: 24px; padding: 20px 22px; width: min(92vw, 520px); max-height: 86vh; color: inherit; font: inherit; box-shadow: 0 20px 60px #0004; user-select: text; }
 #helpBox::backdrop { background: #4a3b5288; }
 #helpBox h2 { margin: 0 0 6px; font-size: 22px; }
@@ -43,6 +43,8 @@ h1 span { display: inline-block; animation: beat 1.6s ease-in-out infinite; }
 #keyForm { display: flex; gap: 6px; }
 #keyIn { flex: 1; min-width: 0; border: 2px solid #f0d6e2; border-radius: 12px; padding: 8px 10px; font: inherit; font-size: 16px; }
 #keyForm button { border: 0; border-radius: 12px; padding: 0 14px; background: #4a3b52; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+#keyForm #keyClear { background: #e8dce8; color: #4a3b52; }
+#keyForm #keyClear[hidden] { display: none; }
 .ver { margin: 10px 0 0; font-size: 11px; opacity: .55; text-align: center; }
 #helpClose { display: block; margin: 16px auto 0; border: 0; border-radius: 16px; padding: 10px 20px; background: #ff5d8f; color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
 
@@ -240,6 +242,7 @@ h1 span { display: inline-block; animation: beat 1.6s ease-in-out infinite; }
 .dog.lie .dog-head { transform: translate(6px, 34px) rotate(16deg); }
 .dog.lie .dog-tongue { display: none; }
 .dog.lie .dog-tail { animation-duration: .9s; }
+.dog.turn-left .dog-all { transform-box: fill-box; transform-origin: 50% 50%; scale: -1 1; }
 
 /* particles, flash, bubble */
 #fx .p { position: absolute; font-size: 5cqw; line-height: 1; white-space: nowrap; font-weight: 800; color: #ff4f86; text-shadow: 0 1px 0 #fff; will-change: transform, opacity; }
@@ -314,14 +317,18 @@ h1 span { display: inline-block; animation: beat 1.6s ease-in-out infinite; }
 #diaryBox { border: 0; border-radius: 24px; padding: 20px 22px; width: min(92vw, 460px); color: inherit; font: inherit; box-shadow: 0 20px 60px #0004; background: #fffdf5; user-select: text; }
 #diaryBox::backdrop { background: #4a3b5288; }
 #diaryBox h2 { margin: 0 0 10px; font-size: 22px; }
-#diaryBox .page { min-height: 150px; font-size: 15px; line-height: 1.55; background: repeating-linear-gradient(#fffdf5 0 26px, #e9e1f5 26px 27px); padding: 4px 6px; border-radius: 8px; }
-#diaryBox .page p { margin: 0 0 6px; }
-#diaryBox .date { font-weight: 800; color: #c2477a; text-transform: capitalize; }
-#diaryBox .sign { text-align: right; font-style: italic; }
-#diaryBox .nav { display: flex; justify-content: space-between; gap: 8px; margin-top: 12px; }
-#diaryBox .nav button { border: 0; border-radius: 14px; padding: 8px 16px; background: #f3e9fb; font: inherit; font-weight: 800; cursor: pointer; }
-#diaryBox .nav .close { background: #ff5d8f; color: #fff; }
-#diaryBox .nav button:disabled { opacity: .35; cursor: default; }
+#diaryBox .page, .diary-tray .page { min-height: 150px; font-size: 15px; line-height: 1.55; background: repeating-linear-gradient(#fffdf5 0 26px, #e9e1f5 26px 27px); padding: 4px 6px; border-radius: 8px; }
+#diaryBox .page p, .diary-tray .page p { margin: 0 0 6px; }
+#diaryBox .date, .diary-tray .date { font-weight: 800; color: #c2477a; text-transform: capitalize; }
+#diaryBox .sign, .diary-tray .sign { text-align: right; font-style: italic; }
+#diaryBox .nav, .diary-tray .nav { display: flex; justify-content: space-between; gap: 8px; margin-top: 12px; }
+#diaryBox .nav button, .diary-tray .nav button { border: 0; border-radius: 14px; padding: 8px 16px; background: #f3e9fb; font: inherit; font-weight: 800; cursor: pointer; color: inherit; }
+#diaryBox .nav .close, .diary-tray .nav .open-modal { background: #ff5d8f; color: #fff; }
+#diaryBox .nav button:disabled, .diary-tray .nav button:disabled { opacity: .35; cursor: default; }
+.diary-tray { width: 100%; background: #fffdf5; border-radius: 16px; padding: 10px 12px; box-shadow: 0 2px 8px #0001; user-select: text; -webkit-user-select: text; }
+.diary-tray .page { min-height: 110px; font-size: 14px; }
+.diary-tray .nav { margin-top: 8px; }
+.diary-tray .nav button { padding: 6px 12px; font-size: 12.5px; }
 
 /* holiday garland, fairy lights, the aquarium fish */
 .garland text { animation: sway 2.4s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -.3s); transform-box: fill-box; transform-origin: 50% 0; }
@@ -395,6 +402,7 @@ h1 span { display: inline-block; animation: beat 1.6s ease-in-out infinite; }
     <h1>Lin <span>✨</span></h1>
     <div class="hbtns">
       <button id="install" title="Nainstalovat do telefonu" aria-label="Nainstalovat do telefonu" hidden>📲</button>
+      <button id="diaryBtn" title="Deníček" aria-label="Deníček">📔</button>
       <button id="help" title="Nápověda" aria-label="Nápověda">❔</button>
       <button id="mute" title="Zvuk" aria-label="Zvuk">🔊</button>
     </div>
@@ -405,19 +413,19 @@ h1 span { display: inline-block; animation: beat 1.6s ease-in-out infinite; }
     <h3>Co umí</h3>
     <ul>
       <li><b>Pohlazení</b> – přejeď myší po hlavě, na mobilu prstem ze strany na stranu (tah nahoru a dolů posouvá stránku). <b>Pošťouchnutí</b> – klikni na tělo. Když to přeženeš, urazí se; usmíří ji pohlazení nebo něco dobrého.</li>
-      <li><b>Dole jsou záložky</b> a v každé pár skupin, které se rozbalují kliknutím na jejich název: 🍽️ Jídlo (jídlo, pití, drinky), 🛁 Péče (koupel, sprcha, zuby, česání, lék, spánek a péče o psa), 👗 Šatník, 🎬 Činnosti, 🎮 Zábava (minihry a legrace) a 🌟 Přání (přání, deníček, obchod).</li>
+      <li><b>Dole jsou záložky</b> a v každé pár skupin, které se rozbalují kliknutím na jejich název: 🍽️ Jídlo (jídlo, pití, drinky), 👗 Šatník, 🎬 Činnosti (místnosti včetně Koupelny 🛁, péče o Lin a péče o pejska), 🎮 Zábava (minihry a legrace), 🌟 Přání (přání a obchod) a 📔 Deníček.</li>
       <li><b>Jídlo, pití, drinky</b> – klikni nebo ťukni na položku; myší ji jde k Lin i přetáhnout. Každá věc má jinou reakci, po drincích se trochu motá (voda a káva pomáhají). Když je přejedená, další sousto odmítne. Když to s drinky přeženeš, zazpívá si, usne na zemi a probudí se s kocovinou.</li>
-      <li><b>Péče</b> 🛁 – koupel v pěně, rychlá sprcha, čištění zubů a česání. Čistota 🧼 časem klesá, při sportu a venku rychleji. Když je Lin špinavá, je mrzutá a lítají kolem ní mouchy.</li>
+      <li><b>Koupelna a péče</b> 🛁 – v Činnostech najdeš trvalou místnost Koupelna i péči o Lin (koupel v pěně, rychlá sprcha, čištění zubů, česání, lék a spánek) a péči o pejska. Po koupeli a sprše si Lin oblékne župan. Čistota 🧼 časem klesá, při sportu a venku rychleji; když je špinavá, je mrzutá a lítají kolem ní mouchy.</li>
       <li><b>Zprávy</b> – do pole pod scénou jí můžeš kdykoli napsat a ona odpoví (potřebuje internet, odpověď trvá pár vteřin). Ví, co zrovna dělá a jak jí je, a pamatuje si posledních pár zpráv, dokud stránku nezavřeš. Během minihry neodpovídá.</li>
       <li><b>Šatník</b> – převlékání; roční období mění i krajinu. Doma se sama převlékne do domácího, do práce do pracovního a podobně.</li>
-      <li><b>Činnosti</b> – práce, sport, tanec, televize, venčení psa, chatování na mobilu a spánek.</li>
-      <li><b>Věci kolem</b> – skoro na všechno ve scéně se dá kliknout. Kde občas blikne ✨, tam něco je. Pejska jde pohladit, hodit mu klacek nebo ho v Péči nakrmit, dát mu pamlsek a vykoupat.</li>
+      <li><b>Činnosti</b> – doma, práce, sport, tanec, televize, venčení psa, chatování na mobilu, koupelna a spánek, plus péče o Lin a pejska.</li>
+      <li><b>Věci kolem</b> – skoro na všechno ve scéně se dá kliknout. Kde občas blikne ✨, tam něco je. Pejsek se občas přijde podívat do záběru: jde ho pohladit, hodit mu klacek nebo ho v Činnostech nakrmit, dát mu pamlsek a vykoupat.</li>
       <li><b>Denní doba</b> – ráno, den, večer a noc se řídí hodinami v počítači. Okno doma umí na chvíli přepnout den a noc, lampa v noci rozsvítí pokoj. Večer a v noci se do práce nechodí a po deváté večer ani cvičit.</li>
       <li><b>Minihry</b> – v záložce Zábava, nebo růžové tlačítko vpravo nahoře ve scéně (stejným tlačítkem „✖ Konec“ se dá hra kdykoli ukončit): pexeso (doma), švihadlo (sport), inbox (práce), taneční paměť (tanec).</li>
       <li><b>Přání</b> 🌟 – každý den má Lin tři přání. Za splněné dostaneš srdíčka 💖, za všechna tři bonus. Dny v řadě se splněným přáním počítá 🔥. Za srdíčka jsou v záložce Přání nové outfity, doplňky pro psa a výzdoba pokoje.</li>
       <li><b>Svátky</b> – na Valentýna, Velikonoce, Halloween, Mikuláše, Vánoce, Silvestra a na narozeniny Lin (5. 10.) je výzdoba, sváteční přání a dárek.</li>
-      <li><b>Deníček</b> 📔 – každý den si Lin zapíše, co se dělo. Najdeš ho v záložce Přání.</li>
-      <li><b>Pejsek</b> 🐕 – má vlastní hlad a potřebu ven (proužky vedle srdíček). Nakrmíš ho granulemi v Péči, vyvenčíš procházkou nebo aportem. Když ho zanedbáš, kňučí a pokouše botu.</li>
+      <li><b>Deníček</b> 📔 – má vlastní záložku dole i tlačítko 📔 nahoře. Lin si tam zapisuje vše, co se za den dělo.</li>
+      <li><b>Pejsek</b> 🐕 – má vlastní hlad a potřebu ven (proužky vedle srdíček) a občas za Lin sám přiběhne. Nakrmíš ho granulemi v Činnostech → Péče o pejska, vyvenčíš procházkou nebo aportem. Když ho zanedbáš, kňučí a pokouše botu.</li>
       <li><b>Moucha</b> 🪰 – Lin nesnáší hmyz. Když přiletí, klikni na ni.</li>
     </ul>
     <h3>Nemoci a hlad</h3>
@@ -450,9 +458,9 @@ h1 span { display: inline-block; animation: beat 1.6s ease-in-out infinite; }
       <li>Na iPhonu má aplikace z plochy vlastní úložiště: Lin v ní začne od začátku a klíč pro zprávy je potřeba vložit znovu.</li>
     </ul>
     <h3>Klíč pro zprávy</h3>
-    <p class="keyhint">Aby Lin odpovídala na zprávy, potřebuje klíč služby OpenRouter. Stačí ho vložit jednou; zůstane jen v tomto prohlížeči. <span id="keyNote"></span></p>
-    <form id="keyForm"><input id="keyIn" type="password" placeholder="sk-or-…" autocomplete="off"><button type="submit">Uložit</button></form>
-    <p class="ver">Verze 25.10.2026 21:32</p>
+    <p class="keyhint">Aby Lin odpovídala na zprávy, potřebuje klíč služby OpenRouter (začíná <code>sk-or-…</code>). Stačí ho vložit sem nebo přímo do chatu; uloží se automaticky v tomto prohlížeči. <span id="keyNote"></span></p>
+    <form id="keyForm"><input id="keyIn" type="text" placeholder="sk-or-v1-…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button type="submit">Uložit</button><button type="button" id="keyClear" hidden>Smazat</button></form>
+    <p class="ver">Verze 25.10.2026 22:42</p>
     <button id="helpClose">Jasně, jdu si hrát!</button>
   </dialog>
   <div id="stats"></div>
@@ -613,6 +621,31 @@ function compose({ leg = SKIN, shoes, pant, bottom = '', top = '', sleeve, hands
   return { body: neck + legs + (pant ? pant.hips : '') + bottom + top + over + chinShadow, arms: arms(sleeve, hands) };
 }
 
+// When bathing or showering, her clothes are replaced by a fluffy cloud over her body,
+// while her head, bare arms and bare legs/feet stay visible.
+function bathCloud() {
+  const bareFoot = `<path d="${SHOE}" fill="${SKIN}"/>`;
+  const legInner = `<path d="M424,740 L506,740 L496,882 Q470,894 444,882Z" fill="${SKIN}"/>` + bareFoot;
+  const legs = ['L', 'R'].map((s) => `<g class="leg leg${s}">${side(legInner, s === 'R')}</g>`).join('');
+  const cloud = puff(`
+      <ellipse cx="512" cy="690" rx="162" ry="122" fill="#ffffff"/>
+      <circle cx="392" cy="636" r="72" fill="#f7fbff"/>
+      <circle cx="632" cy="636" r="72" fill="#f7fbff"/>
+      <circle cx="380" cy="726" r="70" fill="#ffffff"/>
+      <circle cx="644" cy="726" r="70" fill="#ffffff"/>
+      <circle cx="438" cy="582" r="68" fill="#ffffff"/>
+      <circle cx="586" cy="582" r="68" fill="#ffffff"/>
+      <circle cx="512" cy="572" r="72" fill="#fdfeff"/>
+      <circle cx="442" cy="778" r="68" fill="#f7fbff"/>
+      <circle cx="582" cy="778" r="68" fill="#f7fbff"/>
+      <circle cx="512" cy="788" r="74" fill="#ffffff"/>
+    `) +
+    `<g fill="#dff1ff" opacity=".75">
+      <circle cx="422" cy="650" r="16"/><circle cx="602" cy="668" r="20"/><circle cx="468" cy="744" r="15"/><circle cx="564" cy="752" r="13"/>
+    </g>`;
+  return { body: neck + legs + cloud + chinShadow, arms: arms({}, SKIN) };
+}
+
 const pattern = (id, tile, size = 44) =>
   `<defs><pattern id="${id}" width="${size}" height="${size}" patternUnits="userSpaceOnUse">${tile}</pattern></defs>`;
 
@@ -637,8 +670,8 @@ const OUTFITS = [
   { id: 'work', name: 'Pracovní', icon: '💼',
     line: ['Tak, jdeme na to. Kde je kafe?', 'Profesionálka každým coulem.'],
     body: () => compose({
-      shoes: shoe('sneaker', '#fff', '#e2e2e2'),
-      pant: pants('#232325', 858, 0, 700, `<path d="M433,856 L495,856" stroke="#38383c" stroke-width="20" stroke-linecap="round"/>`),
+      shoes: shoe('pump', '#1c1c22'),
+      bottom: puff(skirt('#1f1f24', 836, 98, 696)) + `<path d="M416,836 Q512,854 608,836" stroke="#2e2e35" stroke-width="5" fill="none"/>`,
       // open blazer: the shirt shows as a strip between the two fronts, like in the render
       top: puff(torso('#f1f0ee', 744)) + `<path d="M512,580 L512,744" stroke="#d6d4d0" stroke-width="3"/>` +
         [612, 656, 700].map((y) => `<circle cx="512" cy="${y}" r="5" fill="#cfcdc8"/>`).join('') +
@@ -956,18 +989,21 @@ function dog(x, y, pose = 'stand', scale = 1) {
       </g>
     </g></g>`;
 }
-// Where she washes (care.js): tiled walls, a mirror, towels and a bath mat.
+// Where she washes (care.js) and hangs out in her bathrobe: tiled walls, mirror, towels, shelf and bath mat.
 function bathroomBack() {
   return `<defs><pattern id="wallTiles" width="64" height="64" patternUnits="userSpaceOnUse"><rect width="64" height="64" fill="#e3f4fb"/><path d="M64,0 V64 H0" stroke="#c6e1ee" stroke-width="3" fill="none"/></pattern>
       <pattern id="floorTiles" width="80" height="80" patternUnits="userSpaceOnUse"><rect width="80" height="80" fill="#f4f6fa"/><rect width="40" height="40" fill="#dfe6f0"/><rect x="40" y="40" width="40" height="40" fill="#dfe6f0"/></pattern></defs>
     <rect width="1024" height="1024" fill="url(#wallTiles)"/>
     <rect y="868" width="1024" height="156" fill="url(#floorTiles)"/><rect y="856" width="1024" height="14" fill="#fff"/>
-    <g transform="translate(90 200)"><ellipse cx="90" cy="130" rx="100" ry="135" fill="#d9b48c"/><ellipse cx="90" cy="130" rx="84" ry="118" fill="#cfe9f7"/><path d="M40,70 L84,34 M48,116 L116,58" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity=".7"/></g>
-    <path d="M760,300 H950" stroke="#b9c4d2" stroke-width="10" stroke-linecap="round"/>
-    <path d="M790,300 h62 v190 q0,12 -12,12 h-38 q-12,0 -12,-12Z" fill="#ff9ec4"/><path d="M864,300 h58 v160 q0,12 -12,12 h-34 q-12,0 -12,-12Z" fill="#9be3b0"/>
-    <path d="M770,620 H940" stroke="#b9c4d2" stroke-width="8" stroke-linecap="round"/>
-    <text x="780" y="612" font-size="60">🧴</text><text x="864" y="612" font-size="56">🧼</text>
-    <text x="70" y="1000" font-size="96">🪴</text>
+    <g data-act="mirror" transform="translate(90 200)"><ellipse cx="90" cy="130" rx="100" ry="135" fill="#d9b48c"/><ellipse cx="90" cy="130" rx="84" ry="118" fill="#cfe9f7"/><path d="M40,70 L84,34 M48,116 L116,58" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity=".7"/></g>
+    <path d="M80,530 H280" stroke="#b9c4d2" stroke-width="8" stroke-linecap="round"/>
+    ${emoji('teethprop', '🪥', 110, 522, 54)}${emoji('combprop', '🪮', 195, 522, 54)}
+    <g data-act="towel"><path d="M760,300 H950" stroke="#b9c4d2" stroke-width="10" stroke-linecap="round"/>
+      <path d="M790,300 h62 v190 q0,12 -12,12 h-38 q-12,0 -12,-12Z" fill="#ff9ec4"/><path d="M864,300 h58 v160 q0,12 -12,12 h-34 q-12,0 -12,-12Z" fill="#9be3b0"/></g>
+    <path d="M750,620 H956" stroke="#b9c4d2" stroke-width="8" stroke-linecap="round"/>
+    ${emoji('soap', '🧴', 762, 612, 58)}${emoji('soap', '🧼', 832, 612, 54)}${emoji('showerprop', '🚿', 898, 612, 58)}
+    <g data-act="plant" transform="translate(118 996)"><path d="M-36,0 L36,0 L28,-70 L-28,-70Z" fill="#d9825b"/><text class="leaf" x="0" y="-70" font-size="110" text-anchor="middle">🪴</text></g>
+    ${emoji('bathprop', '🛁', 840, 965, 84)}${emoji('duck', '🦆', 235, 975, 56)}
     <ellipse cx="512" cy="952" rx="230" ry="42" fill="#b6e3f5" opacity=".85"/>`;
 }
 
@@ -1092,6 +1128,12 @@ const SCENES = [
     front: () => `<rect data-act="mobile" x="476" y="628" width="72" height="112" fill="transparent"/>`,
     tick: 3000,
     idle: ['Hihi, ten se chytil!', 'Odepíšu až za hodinu. Ať se trápí.', 'Zobrazeno. 😈', 'Chudák, ten neví, co ho čeká.', 'Píše… píše… píše… a nic!', 'Pošlu jen smajlíka. Ať si láme hlavu.', 'Ale ale, pánové se předhánějí.', 'Ten je zlatej. Nechám ho vydusit.', 'Hihihi! Tohle mu fakt napíšu.', 'Další srdíčko? Kluci, kluci…', 'Já a drzá? Nikdy. 😇'] },
+
+  { id: 'bath', name: 'Koupelna', icon: '🛁', outfit: 'robe', charLoop: '',
+    back: () => bathroomBack(),
+    front: () => '',
+    tick: 3600,
+    idle: ['Wellness den! Nerušit 🧖‍♀️', 'Dáme vanu s pěnou, nebo rychlou sprchu?', 'Kde mám gumovou kachničku? 🦆', 'Ještě vyčistit zuby a učesat.', 'V županu bych chodila klidně i do práce.', 'Pěna až po uši, to je plán 🛁', 'Zrcadlo, zrcadlo, kdo je na světě nejdrzejší? Já 😝'] },
 
   { id: 'sleep', name: 'Spánek', icon: '😴', outfit: 'pyjama', charLoop: 'loop-sleep',
     back: () => `<rect width="1024" height="1024" fill="#1d2145"/>
@@ -1331,10 +1373,13 @@ function dogTick(now) {
     pup.walkZeroSince ||= now;
     if (!pup.shoe && now - pup.walkZeroSince > (FAST ? 20000 : 10 * MIN)) chewShoe();
   } else pup.walkZeroSince = 0;
-  if ((pup.food < 20 || pup.walk < 20) && state.scene === 'home' && !game && quiet() && now - pup.whineAt > 45000) {
+  if ((pup.food < 20 || pup.walk < 20) && ['home', 'bath', 'chat'].includes(state.scene) && !game && quiet() && now - pup.whineAt > 45000) {
     pup.whineAt = now;
+    if (!dogPos()) summonDog(35000);
+    const p = dogPos() || [810, 735];
     tone(900, 0.5, { to: 600, vol: 0.05 }); tone(820, 0.45, { to: 560, vol: 0.04, delay: 0.55 });
-    fx(pup.food < 20 ? '🐕🥣' : '🐕💧', 835, 330, { dy: -60, size: 4, dur: 1600 });
+    fx(pup.food < 20 ? '🐕🥣' : '🐕💧', p[0] + 40, p[1] - 20, { dy: -60, size: 4, dur: 1600 });
+    face('sad', 2200); pose('hips', 1400);
     say(pup.food < 20 ? 'Pejsek má hlad. Dáš mu granule? 🥣' : 'Pejsek kňučí, chce ven 🐕', 3000, 'sad');
   }
   renderDog();
@@ -1342,8 +1387,8 @@ function dogTick(now) {
 function chewShoe() {
   pup.shoe = true; saveHealth(); track('shoe');
   if (state.scene === 'home') renderScene();
-  bump({ mood: -6 }); face('angry', 3000); sfx.hmpf();
-  say('Ten pes mi rozkousal botu! 😤 Kdyby šel ven, tohle by se nestalo.', 4000, false);
+  bump({ mood: -6 }); face('angry', 3000); pose('hips', 2200); sfx.hmpf();
+  say('Ten pes mi rozkousal botu! 😤 Kdyby šel ven, tohle by se nestalo.', 4000, 'angry');
 }
 function feedDog(amount) {
   pup.food = clamp(pup.food + amount, 0, 100); saveHealth(); renderDog();
@@ -1377,17 +1422,24 @@ function healthPersona() {
 
 const STINK = ['Smrdím jak ponožka po fotbale 🙈', 'Potřebuju do vany. Hned.', 'Ani moucha mě nechce… teda chce, to je právě ten problém 🪰', 'Fuj, to jsem já? 💨'];
 
-// A clean-up takes her to the bathroom for a few seconds: she is busy, things happen on the way,
-// and afterwards the scene she came from comes back.
-function routine(ms, steps, done) {
+// A clean-up takes place in the bathroom: if she isn't there yet, she goes to the bathroom scene.
+// During bath and shower, her clothes are replaced by a cloud and afterwards she puts on her bathrobe.
+function routine(ms, steps, done, { undress = false, bareHead = false, kind = true } = {}) {
   if (state.busy || game || weak()) return false;
-  touched(); state.busy = true; state.washing = true;
-  el.backdrop.innerHTML = bathroomBack(); el.front.innerHTML = ''; el.stage.dataset.phase = 'day';
+  touched();
+  if (state.scene !== 'bath') setScene('bath', true);
+  state.busy = true; state.washing = kind;
+  if (undress) { state.undressed = true; renderOutfit(); el.shadow.style.display = kind === 'bath' ? 'none' : ''; }
+  else if (bareHead) el.headExtra.innerHTML = '';
+  el.front.innerHTML = ''; el.stage.dataset.phase = 'day';
   el.gameBtn.classList.remove('show');
   steps.forEach(([at, fn]) => setTimeout(fn, at));
   setTimeout(() => {
     state.busy = false; state.washing = false;
     el.fx.querySelectorAll('.held').forEach((n) => n.remove());
+    if (undress) { state.undressed = false; setOutfit('robe', true); }
+    else renderOutfit();
+    el.shadow.style.display = state.scene === 'sleep' ? 'none' : '';
     renderScene(); el.gameBtn.classList.toggle('show', !!SCENE_BY_ID[state.scene].game);
     done();
   }, ms);
@@ -1413,35 +1465,53 @@ function bath() {
         <path d="M800,770 V700 Q800,670 770,670 H740" stroke="#9aa6b8" stroke-width="14" fill="none" stroke-linecap="round"/>
         ${[250, 310, 370, 430, 490, 550, 610, 670, 730, 780].map((x, i) => `<circle class="foam" cx="${x}" cy="${768 - (i % 2) * 20}" r="${44 + (i % 3) * 9}" fill="#fdfdff" stroke="#e6ecf5" stroke-width="3" style="--i:${i}"/>`).join('')}
         <text class="duck" x="640" y="760" font-size="80">🦆</text></g>`;
-      sfx.splash(); happy(6800); say(pick(['Pěna až po uši! 🛁', 'Wellness! Nerušit, prosím 🧖‍♀️']), 2600, 'happy');
+      sfx.splash(); happy(6800); face('grin', 2400); pose('cheer', 1400); moves.pop();
+      say(pick(['Pěna až po uši! 🛁', 'Wellness! Nerušit, prosím 🧖‍♀️']), 2600, 'happy');
     }],
     [500, () => burst(['🫧', '🫧', '✨'], 512, 720, 8, 260)],
-    [2800, () => { burst(['🫧', '🫧'], 512, 700, 6, 220); say(pick(['Kachničko, ty jediná mi rozumíš 🦆', 'Tady bych klidně bydlela.', 'Ještě pět minut… nebo hodinu.']), 2600, false); sfx.aww(); }],
-    [5000, () => { burst(['🫧', '🫧', '🫧'], 512, 720, 7, 260); sfx.splash(); }],
+    [1600, () => { sfx.squeak(); pose('wave', 1100); }],
+    [2800, () => {
+      burst(['🫧', '🫧'], 512, 700, 6, 220); sfx.aww(); happy(2600); face('grin', 2200); pose('shy', 1600);
+      say(pick(['Kachničko, ty jediná mi rozumíš 🦆', 'Tady bych klidně bydlela.', 'Ještě pět minut… nebo hodinu.']), 2600, 'happy');
+    }],
+    [5000, () => { burst(['🫧', '🫧', '🫧'], 512, 720, 7, 260); sfx.splash(); moves.wobble(); pose('cheer', 1300); }],
   ], () => {
     clean(100); bump({ mood: 8, energy: 4 });
     if (health.sick?.kind === 'cold' || health.sick?.kind === 'hangover') health.sick.until -= 8 * MIN;
-    track('care', { kind: 'bath' }); sfx.yay(); hearts(4);
-    say(pick(['Voním jak jarní louka. Nebo aspoň jak aviváž 🌸', 'Čistá jak lilie. Skoro.', 'Nová Lin, verze 2.0, bez zápachu 😎']), 3200, false);
-  });
+    track('care', { kind: 'bath' }); sfx.yay(); hearts(4); happy(2000); face('grin', 2000); pose('hips', 1500); moves.spin();
+    say(pick(['Voním jak jarní louka. Nebo aspoň jak aviváž 🌸', 'Čistá jak lilie a v župánku!', 'Nová Lin, verze 2.0, bez zápachu 😎']), 3200, 'happy');
+  }, { undress: true, kind: 'bath' });
 }
 function shower() {
   const drops = () => { for (let i = 0; i < 4; i++) fx(pick(['💧', '💧', '💦']), rand(430, 594), 150, { dy: rand(620, 760), dx: rand(-40, 40), dur: rand(700, 950), size: 3.4, ease: 'ease-in' }); };
-  routine(4000, [
+  const coldStart = Math.random() < 0.5;
+  routine(4400, [
     [0, () => {
       el.front.innerHTML = `<g class="shower"><path d="M760,0 V70 Q760,100 730,100 H560" stroke="#9aa6b8" stroke-width="14" fill="none"/>
         <ellipse cx="512" cy="108" rx="78" ry="24" fill="#c3ccd8"/><ellipse cx="512" cy="118" rx="64" ry="12" fill="#9aa6b8"/>
         <rect x="236" y="70" width="552" height="954" rx="16" fill="#bfe6ff" opacity=".24" stroke="#fff" stroke-width="8"/>
         <path d="M290,320 L370,240 M290,420 L450,260" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".45"/></g>`;
-      noise(3.6, { freq: 4200, vol: 0.05 }); moves.shake(500);
-      say(pick(['Studená! ÁÁÁ! 🥶 …dobrý, už teče teplá.', 'Zpívám ve sprše. Neposloucháš, že ne? 🎤']), 3000, false);
+      noise(4.0, { freq: 4200, vol: 0.05 });
+      if (coldStart) {
+        sfx.eek(); face('wow', 1100); pose('flail', 1000); moves.shake(650);
+        say('Studená! ÁÁÁ! 🥶 …dobrý, už teče teplá.', 2800, 'angry');
+      } else {
+        happy(3600); face('grin', 2200); pose('cheer', 1400); moves.wobble();
+        say('Zpívám ve sprše. Neposloucháš, že ne? 🎤', 2800, 'happy');
+      }
     }],
-    ...[100, 350, 600, 850, 1100, 1350, 1600, 1850, 2100, 2350, 2600, 2850, 3100, 3350].map((at) => [at, drops]),
-    [1800, () => { sfx.sing(); fx('🎶', HEAD_TOP[0] + 170, HEAD_TOP[1] + 80, { dy: -80, size: 5 }); }],
+    [1100, () => { if (coldStart) { sfx.aww(); happy(2600); face('grin', 2000); pose('shy', 1100); } }],
+    ...[100, 350, 600, 850, 1100, 1350, 1600, 1850, 2100, 2350, 2600, 2850, 3100, 3350, 3600, 3850].map((at) => [at, drops]),
+    [2100, () => {
+      sfx.sing(); face('grin', 1800); pose('cheer', 1600); moves.wobble();
+      burst(['🎵', '🎶', '🎤'], HEAD_TOP[0] + 150, HEAD_TOP[1] + 80, 4, 130);
+      say(pick(['🎶 La la lááá, zpívám ve spršeee! 🎶', '🎵 Šubyduby dáá! 🎶', '🎶 Halóóó, superstar v koupelně! 🎤']), 1900, 'happy');
+    }],
   ], () => {
     clean(45); bump({ energy: 6, mood: 3 }); track('care', { kind: 'shower' });
-    happy(1400); say(pick(['Rychlovka hotová. Jsem jak nová 💪🏻', 'Probrala mě líp než kafe. Skoro.']), 2800, false);
-  });
+    sfx.yay(); happy(1800); face('grin', 1800); pose('hips', 1500); moves.pop();
+    say(pick(['Rychlovka hotová. Jsem jak nová 💪🏻', 'Probrala mě líp než kafe. Skoro.', 'Čistá, voňavá a rovnou do županu! 🛁']), 2800, 'happy');
+  }, { undress: true, kind: 'shower' });
 }
 function teeth() {
   routine(3400, [
@@ -1450,17 +1520,18 @@ function teeth() {
         <path d="M330,808 Q512,920 694,808Z" fill="#fff" stroke="#d9e2ee" stroke-width="6"/><rect x="484" y="880" width="56" height="144" fill="#eef2f7"/>
         <path d="M600,772 V730 Q600,712 576,712 H556" stroke="#9aa6b8" stroke-width="14" fill="none" stroke-linecap="round"/>
         <text x="350" y="768" font-size="56">🧴</text></g>`;
-      pose('eat', 3200); el.head.classList.add('mouth-open');
+      pose('eat', 3200); face('grin', 3200); el.head.classList.add('mouth-open', 'chewing');
       const brush = held('🪥', MOUTH[0] - 40, MOUTH[1] + 20, 6);
       brush.animate([{ translate: '-1.6cqw 0', rotate: '-8deg' }, { translate: '1.6cqw 0', rotate: '8deg' }], { duration: 180, iterations: 16, direction: 'alternate', easing: 'ease-in-out' });
       noise(2.8, { freq: 2600, vol: 0.05 });
     }],
     ...[600, 1300, 2000, 2600].map((at) => [at, () => burst(['🫧', '🫧', '·'], MOUTH[0], MOUTH[1] + 10, 4, 70)]),
-    [1500, () => say(pick(['Hňňňm hňm… 🪥', 'Šedesát vteřin! Kdo to vymyslel?']), 1800, false)],
+    [1500, () => { moves.wobble(); say(pick(['Hňňňm hňm… 🪥', 'Šedesát vteřin! Kdo to vymyslel?']), 1800, 'normal'); }],
   ], () => {
-    el.head.classList.remove('mouth-open'); clean(10); bump({ mood: 2 }); track('care', { kind: 'teeth' });
-    face('grin', 1800); say(pick(['Zubař by mě pochválil. Kdybych k němu chodila 😝', 'Mátová svěžest! Cejtíš? Ha!', 'Úsměv za milion. Nebo za pět stovek u dentální hygieny.']), 2800, false);
-  });
+    el.head.classList.remove('mouth-open', 'chewing'); clean(10); bump({ mood: 2 }); track('care', { kind: 'teeth' });
+    sfx.chime(5); burst(['✨'], MOUTH[0], MOUTH[1], 4, 90); happy(1800); face('grin', 2200); pose('hips', 1400);
+    say(pick(['Zubař by mě pochválil. Kdybych k němu chodila 😝', 'Mátová svěžest! Cejtíš? Ha!', 'Úsměv za milion. Nebo za pět stovek u dentální hygieny.']), 2800, 'happy');
+  }, { kind: 'teeth' });
 }
 function comb() {
   const [hx, hy] = HEAD_TOP;
@@ -1480,25 +1551,36 @@ function comb() {
         { left: pct(hx), top: pct(hy + 20), rotate: '0deg' },
       ], { duration: 3200, easing: 'ease-in-out', fill: 'forwards' });
       el.headWrap.animate([{ rotate: '0deg' }, { rotate: '-5deg' }, { rotate: '0deg' }, { rotate: '5deg' }, { rotate: '0deg' }], { duration: 1600, iterations: 2 });
-      sfx.swish(); happy(3200, false);
+      sfx.swish(); happy(3200, false); pose('shy', 1400);
     }],
     [700, () => { sfx.swish(); burst(['✨'], hx, hy + 60, 3, 160); }],
-    [1500, () => { if (Math.random() < 0.5) { sfx.ouch(); face('wow', 900); say('Au, zacuchanej! Opatrně!', 1800, false); } else sfx.swish(); }],
+    [1500, () => {
+      if (Math.random() < 0.5) { sfx.ouch(); face('angry', 1100); pose('flail', 900); moves.wobble(); say('Au, zacuchanej! Opatrně!', 1800, 'angry'); }
+      else { sfx.swish(); face('grin', 1400); pose('hips', 1400); say('To je příjemný… 💆‍♀️', 1600, 'happy'); }
+    }],
     [2400, () => { sfx.swish(); burst(['✨', '💫'], hx, hy + 300, 4, 260); }],
   ], () => {
     bump({ mood: 4, clean: 5 }); track('care', { kind: 'comb' });
-    happy(1400); say(pick(['Vlasy jak z reklamy. Teda skoro.', 'Nádhera. Kde mám zrcadlo? 💁‍♀️', 'Lesknu se jak disko koule ✨']), 2600, false);
-  });
+    happy(1600); face('grin', 1800); pose('wave', 1400); moves.pop();
+    say(pick(['Vlasy jak z reklamy. Teda skoro.', 'Nádhera. Kde mám zrcadlo? 💁‍♀️', 'Lesknu se jak disko koule ✨']), 2600, 'happy');
+  }, { bareHead: true, kind: 'comb' });
 }
 function bathDog() {
   if (weak()) return;
   touched();
-  const p = dogPos() || [835, 400];
-  if (Math.random() < 0.35) { sfx.bark(); return say(pick(['Pejsek prchnul pod postel. Koupání odloženo 😂', 'Slyšel slovo „vana“ a je pryč. Chytrej pes.']), 3000); }
-  sfx.splash(); burst(['🫧', '💦', '🫧'], p[0] + 60, p[1], 6, 140);
-  setTimeout(() => { sfx.bark(); burst(['💦', '💦'], p[0] + 60, p[1], 5, 200); }, 900);
+  if (!dogPos()) summonDog(32000);
+  const p = dogPos() || [810, 735];
+  if (Math.random() < 0.35) {
+    sfx.bark(); face('meh', 2000); pose('hips', 1500); moves.wobble();
+    return say(pick(['Pejsek prchnul pod postel. Koupání odloženo 😂', 'Slyšel slovo „vana“ a je pryč. Chytrej pes.']), 3000);
+  }
+  sfx.splash(); pose('wave', 900); burst(['🫧', '💦', '🫧'], p[0] + 60, p[1], 6, 140);
+  setTimeout(() => {
+    sfx.bark(); sfx.eek(); face('wow', 1600); pose('flail', 1100); moves.shake(600);
+    burst(['💦', '💦'], p[0] + 60, p[1], 5, 200);
+  }, 900);
   bump({ mood: 4, clean: -6 }); track('dog', { kind: 'bath' });
-  say(pick(['Mokrej pes smrdí ještě víc než suchej 🙈', 'Oklepal se. Na mě. Díky moc 😑', 'Čistej pes, mokrá Lin. Férovej obchod.']), 3200, false);
+  say(pick(['Mokrej pes smrdí ještě víc než suchej 🙈', 'Oklepal se. Na mě. Díky moc 😑', 'Čistej pes, mokrá Lin. Férovej obchod.']), 3200, 'sad');
 }
 
 const CARE = {
@@ -1583,7 +1665,7 @@ const WISHES = [
   { id: 'pet', icon: '🥰', text: 'Pohlaď mě', event: 'pet', hint: 'Přejeď mi myší nebo prstem po hlavě, nebo na ni ťukni 🥰' },
   { id: 'walk', icon: '🐕', text: 'Vezmi psa ven', event: 'scene', test: (d) => d.id === 'walk', hint: 'Činnosti → Venčení 🐕' },
   { id: 'stick', icon: '🪵', text: 'Hoď pejskovi klacek', event: 'dog', test: (d) => d.kind === 'fetch', hint: 'Na Venčení klikni na klacek na zemi 🪵' },
-  { id: 'dogfood', icon: '🥣', text: 'Nakrm pejska', event: 'dog', test: (d) => d.kind === 'food', hint: 'Péče → Granule 🥣' },
+  { id: 'dogfood', icon: '🥣', text: 'Nakrm pejska', event: 'dog', test: (d) => d.kind === 'food', hint: 'Činnosti → Péče o pejska → Granule 🥣' },
   { id: 'dance', icon: '💃', text: 'Zatancuj si se mnou', event: 'scene', test: (d) => d.id === 'dance', hint: 'Činnosti → Tanec 💃' },
   { id: 'rope', icon: '🪢', text: 'Dej 10 přeskoků přes švihadlo', event: 'game', test: gameAtLeast('rope', 10), hint: 'Zábava → Švihadlo 🪢' },
   { id: 'inbox', icon: '📥', text: 'Vyřiď se mnou 8 mailů', event: 'game', test: gameAtLeast('inbox', 8), hint: 'Zábava → Inbox. Práce je otevřená jen ráno a přes den 📥' },
@@ -1594,9 +1676,9 @@ const WISHES = [
   { id: 'dress', icon: '👗', text: 'Převleč mě', event: 'wear', hint: 'Vyber mi něco v Šatníku 👗' },
   { id: 'fly', icon: '🪰', text: 'Zachraň mě před mouchou', event: 'fly', hint: 'Až přiletí moucha, plácni ji! Lítá doma, v práci a u televize, za chvilku je tu 🪰' },
   { id: 'chilli', icon: '🌶️', text: 'Skliď chilli na balkoně', event: 'chilli', hint: 'Doma na parapetu u okna mám chilli, klikni na něj 🌶️' },
-  { id: 'bath', icon: '🛁', text: 'Napusť mi vanu s pěnou', event: 'care', test: (d) => d.kind === 'bath', hint: 'Péče → Koupel v pěně 🛁' },
-  { id: 'shower', icon: '🚿', text: 'Potřebuju rychlou sprchu', event: 'care', test: (d) => d.kind === 'shower', hint: 'Péče → Sprcha 🚿' },
-  { id: 'teeth', icon: '🪥', text: 'Vyčisti mi zuby', event: 'care', test: (d) => d.kind === 'teeth', hint: 'Péče → Zuby 🪥' },
+  { id: 'bath', icon: '🛁', text: 'Napusť mi vanu s pěnou', event: 'care', test: (d) => d.kind === 'bath', hint: 'Činnosti → Péče o Lin → Koupel v pěně (nebo v Koupelně) 🛁' },
+  { id: 'shower', icon: '🚿', text: 'Potřebuju rychlou sprchu', event: 'care', test: (d) => d.kind === 'shower', hint: 'Činnosti → Péče o Lin → Sprcha (nebo v Koupelně) 🚿' },
+  { id: 'teeth', icon: '🪥', text: 'Vyčisti mi zuby', event: 'care', test: (d) => d.kind === 'teeth', hint: 'Činnosti → Péče o Lin → Zuby (nebo v Koupelně) 🪥' },
   { id: 'talk', icon: '💬', text: 'Napiš mi zprávu', event: 'talk', when: canTalk, hint: 'Napiš mi do pole pod scénou 💬' },
 ];
 const NO_STARVE = { id: 'nostarve', icon: '🍽️', text: 'Už mě nenech hladovět', event: 'feed', test: () => stats.food > 60, hint: 'Najez mě pořádně, ať mám sytost přes 60 % 🍽️' };
@@ -1697,7 +1779,7 @@ function newDay() {
   if (P.wishes.day === day) { P.log ||= freshLog(); return lines; }
   if (P.log && P.log.day !== day) {
     const page = diaryPage(P.log);
-    if (page) { addDiary(P.log.day, page); lines.push('Psala jsem si deníček… 📔 Mrkni do Přání.'); }
+    if (page) { addDiary(P.log.day, page); lines.push('Psala jsem si deníček… 📔 Mrkni do Deníčku.'); }
   }
   P.log = freshLog();
   P.wishes = { day, ids: pickWishes(day), done: [] };
@@ -1722,6 +1804,7 @@ function track(event, data = {}) {
     wishDone(w);
   }
   saveProgress();
+  if (state.tab === 'diary') renderTray();
 }
 function wishDone(w) {
   let gain = 3;
@@ -1771,14 +1854,16 @@ function renderProgress() {
   box.querySelector('.wishes').textContent = `🌟 ${done}/${total}`;
 }
 function wishGroups(group) {
-  group('Dnešní přání a deníček', (add) => {
+  group('Dnešní přání', (add) => {
     for (const w of todaysWishes()) {
       const done = P.wishes.done.includes(w.id);
       const b = button(done ? '✅' : w.icon, w.text);
       b.classList.add('wish'); b.classList.toggle('done', done);
-      add(b, () => say(done ? 'Tohle už mám, díky! 🥰' : w.hint || w.text + '… prosím? 🥺', 4200));
+      add(b, () => {
+        if (done) { happy(1200); face('grin', 1400); pose('wave', 1000); say('Tohle už mám, díky! 🥰', 3200, 'happy'); }
+        else { pose('shy', 1400); say(w.hint || w.text + '… prosím? 🥺', 4200); }
+      });
     }
-    add(button('📔', 'Deníček'), openDiary);
   });
   // the shop in two halves, so neither needs more than two rows
   for (const [title, kinds] of [['Obchod: oblečení', ['outfit']], ['Obchod: pejsek a byt', ['dog', 'room']]]) group(`${title} (máš ${P.hearts} 💖)`, (add) => {
@@ -1816,26 +1901,52 @@ function diaryPage(log) {
   return lines.slice(0, 5).join(' ');
 }
 function diary() { try { return JSON.parse(store.get('diary', '[]')); } catch { return []; } }
+function diaryWithToday() {
+  const saved = diary();
+  const liveText = P.log ? diaryPage(P.log) : '';
+  if (!liveText) return saved;
+  return saved.filter((p) => p.day !== today()).concat({ day: today(), text: liveText, live: true });
+}
 function addDiary(day, text) {
   const d = diary().filter((p) => p.day !== day).concat({ day, text }).slice(-DIARY_DAYS);
   store.set('diary', JSON.stringify(d));
 }
 let diaryAt = -1;
+function formatDiaryPage(p) {
+  return p
+    ? `<p class="date">${new Date(p.day + 'T12:00').toLocaleDateString('cs-CZ', { weekday: 'long', day: 'numeric', month: 'long' })}${p.live ? ' (dnes)' : ''}</p><p>Milý deníčku,</p><p>${p.text}</p><p class="sign">Lin ✨</p>`
+    : '<p>Zatím prázdno. Jakmile dneska něco podnikneme, hned si to sem zapíšu! 📔</p>';
+}
+function renderDiaryTray(tray) {
+  const pages = diaryWithToday();
+  if (diaryAt < 0 || diaryAt >= pages.length) diaryAt = pages.length - 1;
+  const wrap = document.createElement('div');
+  wrap.className = 'diary-tray';
+  wrap.innerHTML = `<div class="page">${formatDiaryPage(pages[diaryAt])}</div>
+    <div class="nav">
+      <button class="prev" aria-label="Starší">◀ Starší</button>
+      <button class="open-modal">📖 Velký náhled</button>
+      <button class="next" aria-label="Novější">Novější ▶</button>
+    </div>`;
+  wrap.querySelector('.prev').disabled = diaryAt <= 0;
+  wrap.querySelector('.next').disabled = diaryAt >= pages.length - 1;
+  wrap.querySelector('.prev').onclick = () => { diaryAt--; sfx.pop(); renderTray(); };
+  wrap.querySelector('.next').onclick = () => { diaryAt++; sfx.pop(); renderTray(); };
+  wrap.querySelector('.open-modal').onclick = openDiary;
+  tray.append(wrap);
+}
 function openDiary() {
-  const box = document.querySelector('#diaryBox'), pages = diary();
+  const box = document.querySelector('#diaryBox'), pages = diaryWithToday();
   if (diaryAt < 0 || diaryAt >= pages.length) diaryAt = pages.length - 1;
   const show = () => {
-    const p = pages[diaryAt];
-    box.querySelector('.page').innerHTML = p
-      ? `<p class="date">${new Date(p.day + 'T12:00').toLocaleDateString('cs-CZ', { weekday: 'long', day: 'numeric', month: 'long' })}</p><p>Milý deníčku,</p><p>${p.text}</p><p class="sign">Lin ✨</p>`
-      : '<p>Zatím prázdno. Zítra si sem napíšu, co jsme dneska vyváděli. 📔</p>';
+    box.querySelector('.page').innerHTML = formatDiaryPage(pages[diaryAt]);
     box.querySelector('.prev').disabled = diaryAt <= 0;
     box.querySelector('.next').disabled = diaryAt >= pages.length - 1;
   };
   box.querySelector('.prev').onclick = () => { diaryAt--; show(); };
   box.querySelector('.next').onclick = () => { diaryAt++; show(); };
-  box.querySelector('.close').onclick = () => box.close();
-  box.onclick = (e) => { if (e.target === box) box.close(); };
+  box.querySelector('.close').onclick = () => { box.close(); if (state.tab === 'diary') renderTray(); };
+  box.onclick = (e) => { if (e.target === box) { box.close(); if (state.tab === 'diary') renderTray(); } };
   show(); sfx.pop(); box.showModal();
 }
 
@@ -1861,8 +1972,15 @@ const MOUTH = toStage(512, 447);
 const HEAD_TOP = toStage(512, 120);
 
 const store = {
-  get(k, d) { try { return localStorage.getItem('lin.' + k) ?? d; } catch { return d; } },
-  set(k, v) { try { localStorage.setItem('lin.' + k, v); } catch { /* private mode */ } },
+  get(k, d) {
+    try { const v = localStorage.getItem('lin.' + k); if (v !== null) return v; } catch { /* private mode */ }
+    try { const m = document.cookie.match(new RegExp('(?:^|; )lin_' + k + '=([^;]*)')); if (m) return decodeURIComponent(m[1]); } catch { /* ignore */ }
+    return d;
+  },
+  set(k, v) {
+    try { localStorage.setItem('lin.' + k, v); } catch { /* private mode */ }
+    try { document.cookie = `lin_${k}=${encodeURIComponent(v)}; max-age=31536000; path=/; SameSite=Lax`; } catch { /* ignore */ }
+  },
 };
 
 const el = {
@@ -2038,9 +2156,9 @@ function say(text, ms = 2600, voice) {
   el.bubble.classList.add('show');
   clearTimeout(sayTimer);
   sayTimer = setTimeout(() => el.bubble.classList.remove('show'), ms);
-  if (voice === false) return; // an emotion sound already carries the line
-  const len = babble(text, voice || mood());
-  if (!state.busy) {
+  const len = voice === false ? clamp((text.match(/[a-záčďéěíňóřšťúůýž]/gi) || []).length * 0.065, 0.65, 2.3) : babble(text, voice || mood());
+  const silentFace = state.asleep || health.out === true || el.head.classList.contains('chewing') || state.washing === 'teeth' || text.startsWith('💭');
+  if (!silentFace) {
     el.head.classList.add('talking');
     clearTimeout(talkTimer);
     talkTimer = setTimeout(() => el.head.classList.remove('talking'), len * 1000 + 80);
@@ -2110,7 +2228,8 @@ const RATES = {
   base: { food: -6, drink: -7, energy: -4, mood: -2, clean: -1.5 },
   work: { energy: -5, mood: -4 }, sport: { food: -5, drink: -9, energy: -10, mood: 5, clean: -4 },
   dance: { drink: -7, energy: -7, mood: 9, clean: -2 }, tv: { energy: 5, mood: 6 },
-  walk: { drink: -4, energy: -3, mood: 9, clean: -2 }, chat: { mood: 10, energy: -1 }, sleep: { food: 3, drink: 4, energy: 64, mood: 4 }, home: {},
+  walk: { drink: -4, energy: -3, mood: 9, clean: -2 }, chat: { mood: 10, energy: -1 },
+  bath: { clean: 2, mood: 3, energy: 2 }, sleep: { food: 3, drink: 4, energy: 64, mood: 4 }, home: {},
 };
 const stats = { food: 72, drink: 70, energy: 80, mood: 80, clean: 80 };
 (function loadStats() {
@@ -2429,6 +2548,13 @@ setInterval(() => { if (state.tipsy) sober(1); }, 22000);
 
 /* ---------- wardrobe ---------- */
 function renderOutfit() {
+  if (state.undressed) {
+    const parts = bathCloud();
+    el.outfitG.innerHTML = parts.body;
+    el.armsG.innerHTML = parts.arms;
+    el.headExtra.innerHTML = '';
+    return;
+  }
   const o = OUTFIT_BY_ID[state.outfit], parts = o.body();
   el.outfitG.innerHTML = parts.body;
   el.armsG.innerHTML = parts.arms;
@@ -2436,17 +2562,17 @@ function renderOutfit() {
 }
 function setOutfit(id, silent) {
   if (game || (!silent && weak())) return;
-  if (id === state.outfit && !silent) { say('To už mám na sobě! 😄'); return; }
+  if (id === state.outfit && !silent) { pose('hips', 1100); face('grin', 1200); say('To už mám na sobě! 😄'); return; }
   const o = OUTFIT_BY_ID[id];
-  if (o.locked && !owns(id)) return say('Tohle ještě nemám. Mrkni do Přání 🌟');
+  if (o.locked && !owns(id)) { pose('shy', 1200); return say('Tohle ještě nemám. Mrkni do Přání 🌟'); }
   state.outfit = id; store.set('outfit', id);
   if (o.season) state.season = o.season;
   renderOutfit();
   if (['home', 'walk'].includes(state.scene)) renderScene();
   if (!silent) {
-    touched(); sfx.swish(); moves.pop(); moves.spin(); bump({ mood: 2 });
+    touched(); sfx.swish(); moves.pop(); moves.spin(); pose('hips', 1400); happy(1500); face('grin', 1500); bump({ mood: 2 });
     burst(['✨', '⭐', '💫'], 512, 700, 9, 240);
-    say(pick(o.line));
+    say(pick(o.line), 2600, 'happy');
     track('wear', { id });
   }
   renderTray();
@@ -2455,16 +2581,18 @@ function setOutfit(id, silent) {
 /* ---------- scenes ---------- */
 let tickTimer, beatTimer, musicTimer, tickCount = 0, fetching = false;
 const GRADED = ['home', 'work', 'walk', 'chat']; // the other scenes bring their own lighting
+const DOG_VISIT_SCENES = ['home', 'bath', 'work', 'sport', 'chat'];
 function renderScene() {
   const s = SCENE_BY_ID[state.scene];
   el.backdrop.setAttribute('class', 'layer');
   el.stage.dataset.phase = GRADED.includes(state.scene) ? phaseNow() : 'day';
   el.backdrop.innerHTML = s.back(state) + (['home', 'walk'].includes(state.scene) ? holidayDeco() : '');
-  el.front.innerHTML = s.front(state);
+  const visitingDog = state.dogHere && !state.washing && !game && DOG_VISIT_SCENES.includes(state.scene) ? dog(65, 725, state.dogPose || 'stand', 0.94) : '';
+  el.front.innerHTML = s.front(state) + visitingDog;
   $('#heldG').innerHTML = s.held ? s.held() : '';
   // a lit lamp brightens the room at night (see [data-lamp] in style.css)
   el.stage.dataset.lamp = Number(el.backdrop.querySelector('[data-act="lamp"] .glow')?.getAttribute('opacity')) > 0 ? 'on' : 'off';
-  el.shadow.style.display = state.scene === 'sleep' ? 'none' : '';
+  el.shadow.style.display = state.scene === 'sleep' || state.washing === 'bath' ? 'none' : '';
   // props are rebuilt from scratch, so anything they had running starts over
   clearInterval(musicTimer); musicTimer = 0; fetching = false;
 }
@@ -2480,11 +2608,11 @@ const CLOSED = {
   sport: { when: ['night'], lines: ['Cvičit? V tuhle hodinu? Ani náhodou.', 'Po deváté už cvičím jen prsty na ovladači.', 'Tělocvična má zavřeno. A já taky.', 'Zítra. Možná. Teď ne.'] },
 };
 const isClosed = (id) => !!CLOSED[id]?.when.includes(phaseNow());
-function setScene(id) {
+function setScene(id, silent = false) {
   const s = SCENE_BY_ID[id];
   if ((health.collapsed || health.out === true) && id !== 'home') return weak();
   if (state.washing) return say('Moment, jsem v koupelně! 🛁', 2200);
-  if (isSick('cold') && ['sport', 'dance'].includes(id)) { sfx.sigh(); return say('S rýmou? Zapomeň 🤧 Spíš čaj a deku.', 3000, false); }
+  if (isSick('cold') && ['sport', 'dance'].includes(id)) { sfx.sigh(); face('sad', 2200); pose('shy', 1400); return say('S rýmou? Zapomeň 🤧 Spíš čaj a deku.', 3000, false); }
   if (isClosed(id)) {
     touched(); sfx.hmpf(); pose('hips', 1800); face('meh', 2200);
     return say(pick(CLOSED[id].lines), 3200, false);
@@ -2496,6 +2624,7 @@ function setScene(id) {
   if (game) stopGame();
   clearInterval(tickTimer); clearInterval(beatTimer);
   if (state.sulking) unsulk('');
+  if (!DOG_VISIT_SCENES.includes(id)) { state.dogHere = false; clearTimeout(dogLeaveTimer); }
   state.scene = id; state.reps = 0; state.lastTouch = Date.now();
   state.asleep = id === 'sleep';
   el.char.className = 'layer ' + s.charLoop;
@@ -2504,18 +2633,35 @@ function setScene(id) {
   renderScene(); refreshFace(); renderTray();
   el.gameBtn.textContent = s.gameName || '';
   el.gameBtn.classList.toggle('show', !!s.game);
-  sfx.swish();
-  say(pick(s.idle.concat(GRADED.includes(id) ? PHASE_LINES[phaseNow()] : [])), 3000);
+  if (!silent) {
+    sfx.swish();
+    if (['dance', 'walk', 'bath'].includes(id)) { happy(1500); face('grin', 1500); }
+    else if (id === 'sport') face('grin', 1400);
+    else if (id === 'home') pose('wave', 1000);
+    say(pick(s.idle.concat(GRADED.includes(id) ? PHASE_LINES[phaseNow()] : [])), 3000);
+  }
   tickCount = 0;
   tickTimer = setInterval(() => tick(s), s.tick || 3500);
   if (id === 'dance') startBeat();
   track('scene', { id });
 }
 
+function idleEmote(line) {
+  if (/[!🤟🏻😂🥳🎉💃]/.test(line)) { face('grin', 1400); pose(pick(['wave', 'cheer', 'hips', null]), 1100); }
+  else if (/\?/.test(line)) { face(pick(['wow', 'grin', '']), 1200); pose(pick(['hips', 'shy', null]), 1100); }
+  else if (/😈|😏/.test(line)) { face('grin', 1500); pose('hips', 1200); }
+}
+
 function tick(s) {
   if (game || document.hidden) return;
   tickCount++;
-  const idleChat = () => { if (!needsChat() && quiet() && !state.busy && !state.sulking && Math.random() < 0.4) say(pick(s.idle), 3000); };
+  const idleChat = () => {
+    if (!needsChat() && quiet() && !state.busy && !state.sulking && Math.random() < 0.4) {
+      const line = pick(s.idle);
+      idleEmote(line);
+      say(line, 3000);
+    }
+  };
   const seasonFall = () => { const f = SEASONS[state.season].fall; if (f.length) fall(f, 3); };
   const zzz = () => { fx('💤', HEAD_TOP[0] + 170, HEAD_TOP[1] + 60, { dx: 60, dy: -120, dur: 2400 }); sfx.snore(); };
   ({
@@ -2536,6 +2682,10 @@ function tick(s) {
     walk: () => {
       seasonFall();
       if (tickCount % 3 === 0) { sfx.bark(); dogSay(pick(['Haf!', 'Haf haf!', 'Vrrr…', '*čmuch*'])); } else idleChat();
+    },
+    bath: () => {
+      if (Math.random() < 0.45) fx(pick(['🫧', '✨']), rand(180, 840), rand(600, 900), { dy: -90, dur: 1600, size: 3.8 });
+      idleChat();
     },
     sleep: () => { zzz(); if (tickCount % 4 === 0 && quiet()) say(pick(s.idle), 2600); },
     chat: () => {
@@ -2603,6 +2753,7 @@ setInterval(() => {
 }, 6500);
 
 /* ---------- dog ---------- */
+let dogLeaveTimer, dogPoseTimer;
 function dogPos() {
   const d = $('#dog'); if (!d) return null;
   const m = d.transform.baseVal.consolidate().matrix;
@@ -2610,17 +2761,77 @@ function dogPos() {
 }
 function dogSay(text) { const p = dogPos(); if (p) fx(text, p[0] + 60, p[1] - 10, { dy: -70, size: 4, dur: 1100 }); }
 function dogHop() { $('#dog .dog-head')?.animate([{ translate: '0 0' }, { translate: '0 -14px' }, { translate: '0 0' }], { duration: 300, iterations: 2 }); }
+
+// Brings the dog into the frame in indoor scenes so Lin isn't alone with an invisible pet.
+// The dog sprite faces right (+X), so he enters from the left edge (-360px -> 0) and stops at x=65
+// facing Lin in the middle of the room; when leaving, he walks forward (+X) across and off the right edge.
+function summonDog(stayMs = 30000) {
+  if (game || state.washing || !DOG_VISIT_SCENES.includes(state.scene)) return false;
+  clearTimeout(dogLeaveTimer); clearTimeout(dogPoseTimer);
+  if ($('#dog')) {
+    dogLeaveTimer = setTimeout(leaveDog, stayMs);
+    return true;
+  }
+  state.dogHere = true; state.dogPose = 'stand';
+  el.front.insertAdjacentHTML('beforeend', dog(65, 725, 'walk', 0.94));
+  const d = $('#dog');
+  if (d) {
+    d.animate([{ translate: '-360px 0' }, { translate: '0 0' }], { duration: 950, easing: 'ease-out', fill: 'forwards' });
+    setTimeout(() => {
+      if (!d.isConnected) return;
+      d.classList.remove('walk'); d.classList.add('stand');
+      sfx.bark(); dogHop(); dogSay(pick(['Haf! 🐾', 'Ňaf!', '*čmuch čmuch*', 'Haf! ❤']));
+    }, 970);
+    dogPoseTimer = setTimeout(() => {
+      const cur = $('#dog');
+      if (cur && state.dogHere && Math.random() < 0.6) { state.dogPose = 'lie'; cur.classList.remove('stand'); cur.classList.add('lie'); }
+    }, 9000);
+  }
+  dogLeaveTimer = setTimeout(leaveDog, stayMs);
+  return true;
+}
+function leaveDog() {
+  clearTimeout(dogLeaveTimer); clearTimeout(dogPoseTimer);
+  if (!state.dogHere) return;
+  state.dogHere = false; state.dogPose = 'stand';
+  const d = $('#dog');
+  if (!d || !DOG_VISIT_SCENES.includes(state.scene)) return;
+  d.classList.remove('lie', 'stand'); d.classList.add('walk');
+  d.animate([{ translate: '0 0' }, { translate: '980px 0' }], { duration: 1650, easing: 'ease-in', fill: 'forwards' });
+  setTimeout(() => { if (!state.dogHere) d.remove(); }, 1680);
+}
+setInterval(() => {
+  if (game || document.hidden || state.washing || state.asleep || health.collapsed || $('#dog')) return;
+  if (!DOG_VISIT_SCENES.includes(state.scene)) return;
+  const needy = pup.food < 35 || pup.walk < 35;
+  const chance = state.scene === 'home' ? (needy ? 0.65 : 0.4) : (needy ? 0.45 : 0.22);
+  if (Math.random() < chance) {
+    summonDog(rand(24000, 38000));
+    if (quiet() && !state.busy && Math.random() < 0.55) {
+      setTimeout(() => {
+        if (!quiet() || state.busy) return;
+        happy(1200); face('grin', 1400); pose('wave', 1000);
+        say(pick(['Hele, kdo přišel! 🐕', 'Čau chlupáči, jdeš mě zkontrolovat?', 'No pojď sem, ty můj parťáku! 🐾', 'Pejsek se přišel podívat, co děláme 🥰']), 2600, 'happy');
+      }, 1300);
+    }
+  }
+}, 18000);
+setTimeout(() => { if (state.scene === 'home' && !$('#dog')) summonDog(32000); }, 6500);
+
 function petDog() {
   touched(); sfx.bark(); dogHop(); bump({ mood: 3 });
+  if (state.dogHere) summonDog(30000);
   const p = dogPos();
-  burst(['❤️', '🐾', '💕'], p[0], p[1], 4, 110);
+  if (p) burst(['❤️', '🐾', '💕'], p[0], p[1], 4, 110);
   dogSay(pick(['Haf! ❤', 'Ňaf!', '*vrtí ocasem*']));
+  happy(1400); face('grin', 1400); pose('shy', 1200);
   if (quiet()) say(pick(['Kdo je hodnej pejsek?', 'To je můj parťák!', 'Taky chce pohladit.', 'Hodnej! Moc hodnej!']), 2600, 'happy');
 }
 function treatDog(from) {
+  if (!dogPos()) summonDog(32000);
   const p = dogPos();
   if (!p) { say('Pejsek je teď na zahradě. Pojďme ho vyvenčit! 🐕'); return; }
-  touched();
+  touched(); pose('cheer', 1200); happy(1400); face('grin', 1400);
   const r = el.stage.getBoundingClientRect();
   const g = document.createElement('div');
   g.className = 'ghost'; g.textContent = '🦴'; g.style.left = from.x + 'px'; g.style.top = from.y + 'px';
@@ -2630,14 +2841,16 @@ function treatDog(from) {
   setTimeout(() => {
     g.remove(); sfx.bark(); dogHop(); dogSay('Chramst! ❤'); burst(['🐾', '✨'], p[0] + 100, p[1] + 40, 4, 100); bump({ mood: 3 });
     feedDog(10); track('dog', { kind: 'treat' });
-    say(pick(['Je rozmazlenej až běda!', 'Teď bude vrtět ocasem do večera.', 'A co já? Já pamlsek nedostanu?']));
+    say(pick(['Je rozmazlenej až běda!', 'Teď bude vrtět ocasem do večera.', 'A co já? Já pamlsek nedostanu?']), 2600, 'happy');
   }, 570);
 }
-// Kibble works anywhere: when the dog isn't in the scene, it goes into his bowl.
+// Kibble summons the dog if possible so the player sees him eat; otherwise it goes into his bowl.
 function kibble() {
   touched();
+  if (!dogPos()) summonDog(32000);
   const p = dogPos();
   feedDog(40); track('dog', { kind: 'food' }); sfx.pop();
+  happy(1400); face('grin', 1400); pose('wave', 1100);
   if (!p) { beside('🥣'); return say(pick(['Nasypala jsem pejskovi granule do misky 🥣', 'Granule v misce. Slyšíš to chroupání?']), 2800); }
   fx('🥣', p[0] + 160, p[1] + 120, { dy: -40, size: 6, dur: 1400 });
   setTimeout(() => { sfx.munch(); dogHop(); dogSay('Chrup chrup! ❤'); }, 400);
@@ -2654,10 +2867,11 @@ function fetchStick(node) {
   d.animate([{ translate: '0 0' }, { translate: '460px 0' }], { duration: 750, easing: 'ease-in', fill: 'forwards' });
   setTimeout(() => {
     if (!d.isConnected) return; // the scene changed mid-fetch
-    sfx.bark();
+    sfx.bark(); d.classList.add('turn-left');
     d.animate([{ translate: '460px 0' }, { translate: '0 0' }], { duration: 800, easing: 'ease-out', fill: 'forwards' });
     setTimeout(() => {
       if (!d.isConnected) return;
+      d.classList.remove('turn-left');
       fetching = false; node.style.visibility = ''; leash.style.visibility = '';
       dogHop(); dogSay('Haf! 🪵'); bump({ mood: 5, energy: -1 }); happy(1200);
       walkedDog(15); track('dog', { kind: 'fetch' });
@@ -2704,15 +2918,22 @@ function sendText() {
 const PROPS = {
   chilli: (n, p) => {
     wiggle(n);
-    if (P.chilli === today()) return say(pick(['Ještě nedozrály. Zítra! 🌶️', 'Moje chilli. Nesahat 😈']), 2600);
+    if (P.chilli === today()) { pose('hips', 1100); face('grin', 1200); return say(pick(['Ještě nedozrály. Zítra! 🌶️', 'Moje chilli. Nesahat 😈']), 2600); }
     P.chilli = today(); saveProgress(); track('chilli');
-    sfx.yay(); bump({ mood: 5 }); burst(['🌶️', '🌶️', '✨'], p[0], p[1], 5, 120); happy(1400);
+    sfx.yay(); bump({ mood: 5 }); burst(['🌶️', '🌶️', '✨'], p[0], p[1], 5, 120); happy(1400); face('grin', 1500); pose('cheer', 1300);
     say(pick(['Sklizeň! Tohle pálí jak čert 🌶️😈', 'Moje papričky! Balkon je nejlepší zahrada.']), 3000, false);
   },
-  shoe: () => { pup.shoe = false; saveHealth(); renderScene(); sfx.swish(); bump({ mood: 1 }); say('Uklizeno. Příště ho vyvenči, jo? 🙄', 2800); },
-  aquarium: (n, p) => { bounce(n, 8); sfx.splash(); burst(['🫧', '🐠', '🫧'], p[0], p[1] - 20, 4, 70); bump({ mood: 2 }); say(pick(['Rybičky! Ňuňu 🐠', 'Tahle se jmenuje Bublina. Asi.', 'Ryby nekoušou boty. Body pro ryby.']), 2600); },
+  shoe: () => { pup.shoe = false; saveHealth(); renderScene(); sfx.swish(); bump({ mood: 1 }); pose('hips', 1400); face('meh', 1800); say('Uklizeno. Příště ho vyvenči, jo? 🙄', 2800); },
+  aquarium: (n, p) => { bounce(n, 8); sfx.splash(); burst(['🫧', '🐠', '🫧'], p[0], p[1] - 20, 4, 70); bump({ mood: 2 }); happy(1400); face('grin', 1400); pose('shy', 1200); say(pick(['Rybičky! Ňuňu 🐠', 'Tahle se jmenuje Bublina. Asi.', 'Ryby nekoušou boty. Body pro ryby.']), 2600); },
+  mirror: (n, p) => { wiggle(n); sfx.chime(4); burst(['✨', '💖'], p[0] + 90, p[1] + 120, 5, 110); bump({ mood: 3 }); happy(1600); face('grin', 1800); pose('hips', 1500); moves.pop(); say(pick(['Zrcadlo, zrcadlo… jo, pořád dobrý 😎', 'Sluší mi ten župan, co? 🛁', 'Dneska mi to sekne! 💁‍♀️']), 2600, 'happy'); },
+  towel: (n) => { wiggle(n); sfx.swish(); pose('shy', 1200); happy(1400, false); say(pick(['Měkoučký ručník jak v hotelu 🧖‍♀️', 'Růžový je můj, zelený pro návštěvy.']), 2600); },
+  soap: (n, p) => { bounce(n, 16); sfx.pop(); burst(['🫧', '🫧', '✨'], p[0], p[1] - 30, 6, 110); happy(1300); face('grin', 1300); pose('wave', 1000); say(pick(['Bublinky! 🫧', 'Voní po levanduli a malinách.', 'Mýdlová bublina! Puc!']), 2400, 'happy'); },
+  teethprop: () => teeth(),
+  combprop: () => comb(),
+  showerprop: () => shower(),
+  bathprop: () => bath(),
   mobile: (n) => { bounce(n, 10); sendText(); setTimeout(chatGiggle, 500); say(pick(['Odesláno. A teď ať čeká.', 'Tohle ho dostane.', 'Hihi, tohle se nedělá… Odesláno.', 'A ještě čertíka na konec. 😈']), 2800, false); bump({ mood: 2 }); },
-  thought: (n) => { const imp = n.querySelector('.imp'); imp.textContent = IMPS[cycle(n, 'i', IMPS.length)]; wiggle(n); sfx.giggle(); say(pick(['Mám takový nápad…', 'Já? Já jsem úplný andílek.', 'Trochu ho poškádlím.', 'To bude zábava.']), 2600, false); },
+  thought: (n) => { const imp = n.querySelector('.imp'); imp.textContent = IMPS[cycle(n, 'i', IMPS.length)]; wiggle(n); sfx.giggle(); face('grin', 1400); say(pick(['Mám takový nápad…', 'Já? Já jsem úplný andílek.', 'Trochu ho poškádlím.', 'To bude zábava.']), 2600, false); },
   guy: (n, p) => {
     const dot = n.querySelector('.dot'); dot.style.display = 'none'; setTimeout(() => { dot.style.display = ''; }, 6000);
     sendText(); bounce(n, 14);
@@ -2725,103 +2946,106 @@ const PROPS = {
     const night = phaseNow() !== 'night';
     phaseOverride = night ? 'night' : 'day';
     renderScene(); renderTray(); sfx.chime(night ? 0 : 4);
-    if (night) { sfx.yawn(); pose('yawn', 1300); say('Už je tma? To to uteklo.', 2600, false); } else say('Dobré ráno, světe! ☀️', 2600, 'happy');
+    if (night) { sfx.yawn(); pose('yawn', 1300); say('Už je tma? To to uteklo.', 2600, false); } else { happy(1500); pose('cheer', 1200); say('Dobré ráno, světe! ☀️', 2600, 'happy'); }
   },
   lamp: (n) => {
     const g = n.querySelector('.glow'), on = g.getAttribute('opacity') === '0';
     g.setAttribute('opacity', on ? 0.55 : 0); sfx.key();
     el.stage.dataset.lamp = on ? 'on' : 'off';
+    pose('wave', 900); if (on) happy(1100, false);
     say(on ? pick(['Budiž světlo!', 'Hned je tu útulněji.']) : pick(['Cvak. Romantika.', 'Šetříme energii.']));
   },
-  picture: (n) => { const [pic, line] = PICTURES[cycle(n, 'i', PICTURES.length)]; n.querySelector('.pic').textContent = pic; wiggle(n); sfx.pop(); say(line); },
+  picture: (n) => { const [pic, line] = PICTURES[cycle(n, 'i', PICTURES.length)]; n.querySelector('.pic').textContent = pic; wiggle(n); sfx.pop(); pose('hips', 1100); face('grin', 1200); say(line); },
   radio: (n, p) => {
     wiggle(n);
-    if (musicTimer) { clearInterval(musicTimer); musicTimer = 0; return say('Ticho léčí.'); }
+    if (musicTimer) { clearInterval(musicTimer); musicTimer = 0; face('meh', 1000); return say('Ticho léčí.'); }
     const song = [392, 440, 494, 587, 494, 440, 392, 330]; let i = 0;
     musicTimer = setInterval(() => { tone(song[i++ % song.length], 0.22, { type: 'triangle', vol: 0.07 }); if (i % 2) fx(pick(['🎵', '🎶']), p[0] + 40, p[1] - 40, { dx: rand(-60, 60), dy: -110, size: 4 }); }, 260);
-    pose('cheer', 1500); bump({ mood: 4 }); say(pick(['Tuhle mám ráda!', 'Zesil to!', 'La la la… 🎶']), 2600, 'happy');
+    pose('cheer', 1500); happy(1500); face('grin', 1500); bump({ mood: 4 }); say(pick(['Tuhle mám ráda!', 'Zesil to!', 'La la la… 🎶']), 2600, 'happy');
   },
   plant: (n, p) => {
     const leaf = n.querySelector('.leaf'), size = cycle(n, 'grow', 4);
     leaf.setAttribute('font-size', 120 + size * 24); leaf.textContent = size === 3 ? '🌺' : '🪴';
     fall(['💧'], 4, [p[0], p[1] - 160]); sfx.splash(); bounce(n, 12);
+    if (size === 3) { bump({ mood: 5 }); sfx.yay(); happy(1600); face('wow', 1600); pose('cheer', 1400); moves.hop(); }
+    else { pose('wave', 900); happy(1100, false); }
     say(size === 3 ? 'Rozkvetla! Mám zelené prsty!' : size === 0 ? 'Ostříháno. A znovu!' : pick(['Pij, kytičko.', 'Rosteš jako z vody!']), 2600, size === 3 ? 'happy' : undefined);
-    if (size === 3) { bump({ mood: 5 }); sfx.yay(); }
   },
   ball: (n) => {
     sfx.boing();
     n.animate([{ translate: '0 0' }, { translate: '160px -420px', rotate: '300deg' }, { translate: '380px -40px', rotate: '600deg' }, { translate: '200px -180px', rotate: '800deg' }, { translate: '0 0', rotate: '1080deg' }], { duration: 1600, easing: 'ease-in-out' });
-    pose('cheer', 1200); bump({ mood: 2, energy: -1 }); say(pick(['Góóól!', 'Chytej!', 'A je tam!', 'Messi hadr.']), 2200, 'happy');
+    pose('cheer', 1200); happy(1400); face('grin', 1400); moves.hop(); bump({ mood: 2, energy: -1 }); say(pick(['Góóól!', 'Chytej!', 'A je tam!', 'Messi hadr.']), 2200, 'happy');
   },
   gift: (n, p) => {
     sfx.tada(); burst(['✨', '🎊', '⭐'], p[0], p[1], 8, 200);
     n.style.visibility = 'hidden'; setTimeout(() => { n.style.visibility = ''; bounce(n, 40); }, 25000);
     pick([
-      () => { const it = pick(FOOD.slice(0, 6)); say('Jé, překvapení!', 1500, 'happy'); feed(it, screenPoint(n)); },
+      () => { const it = pick(FOOD.slice(0, 6)); face('wow', 1200); say('Jé, překvapení!', 1500, 'happy'); feed(it, screenPoint(n)); },
       () => { FUN[0].run(); },
-      () => { hearts(8); happy(2200); bump({ mood: 10 }); sfx.yay(); pose('cheer', 1600); say('To je pro mě? Děkuju! 🥰', 3000, false); },
-      () => { burst(['🦋'], p[0], p[1], 9, 320); sfx.wow(); face('wow', 1600); say('Motýlci! Kde se tu vzali?', 2600, false); },
+      () => { hearts(8); happy(2200); face('grin', 2000); bump({ mood: 10 }); sfx.yay(); pose('cheer', 1600); say('To je pro mě? Děkuju! 🥰', 3000, false); },
+      () => { burst(['🦋'], p[0], p[1], 9, 320); sfx.wow(); face('wow', 1600); pose('cheer', 1300); say('Motýlci! Kde se tu vzali?', 2600, false); },
     ])();
   },
-  sun: (n, p) => { n.firstElementChild.animate([{ rotate: '0deg' }, { rotate: '360deg' }], { duration: 900 }); burst(['✨', '☀️'], p[0], p[1], 5, 130); bump({ mood: 2 }); say(pick(['Sluníčko! Kde mám brýle?', 'Vitamín D zdarma.', 'Krásně hřeje.']), 2600, 'happy'); },
+  sun: (n, p) => { n.firstElementChild.animate([{ rotate: '0deg' }, { rotate: '360deg' }], { duration: 900 }); burst(['✨', '☀️'], p[0], p[1], 5, 130); bump({ mood: 2 }); happy(1500); face('grin', 1500); pose('cheer', 1200); say(pick(['Sluníčko! Kde mám brýle?', 'Vitamín D zdarma.', 'Krásně hřeje.']), 2600, 'happy'); },
   cloud: (n, p) => {
     bounce(n, 14); sfx.splash();
     const winter = state.season === 'winter';
     fall(winter ? ['❄️'] : ['💧'], 14, [p[0], p[1] + 30]);
+    face(winter ? 'grin' : 'wow', 1500); pose(winter ? 'cheer' : 'flail', 1100);
     say(winter ? pick(['Sněží! Koulovačka?', 'Vločka na nose!']) : pick(['Prší! Kde mám deštník? ☔', 'Jen přeháňka.', 'Hlavně ať mi nezmoknou vlasy!']), 2600);
   },
   tree: (n, p) => {
     wiggle(n); sfx.swish(); fall(SEASONS[state.season].shake, 6, [p[0], p[1] - 60]);
-    if (Math.random() < 0.3) { fx('🐿️', p[0], p[1] - 60, { dx: 120, dy: -140, dur: 1400, size: 6 }); if ($('#dog')) { sfx.bark(); dogSay('HAF! Veverka!'); } say('Veverka!', 2000, 'happy'); }
-    else say(pick(['Třesu, třesu… a nic.', 'Hele, něco spadlo!', 'Stromy mám ráda.']));
+    if (Math.random() < 0.3) { fx('🐿️', p[0], p[1] - 60, { dx: 120, dy: -140, dur: 1400, size: 6 }); if ($('#dog')) { sfx.bark(); dogSay('HAF! Veverka!'); } face('wow', 1400); moves.hop(); say('Veverka!', 2000, 'happy'); }
+    else { pose('wave', 900); say(pick(['Třesu, třesu… a nic.', 'Hele, něco spadlo!', 'Stromy mám ráda.'])); }
   },
-  bush: (n, p) => { wiggle(n); const c = pick(['🐰', '🦔', '🐦', '🐸']); fx(c, p[0], p[1] - 20, { dx: rand(-140, 140), dy: -150, dur: 1300, size: 6 }); sfx.squeak(); say(`Jé, tam něco je! ${c}`, 2200, 'happy'); },
-  flower: (n, p) => { bounce(n, 16); fx(pick(['🐝', '🦋']), p[0], p[1] - 20, { dx: rand(-90, 90), dy: -160, dur: 1500 }); bump({ mood: 1 }); say(pick(['Voní!', 'Natrhám si kytici.', 'Hepčí! Pyl.'])); },
-  mushroom: (n) => { bounce(n, 22); sfx.boing(); say(pick(['Tu nejez. Vážně.', 'Muchomůrka. Hezká, ale zrádná.'])); },
+  bush: (n, p) => { wiggle(n); const c = pick(['🐰', '🦔', '🐦', '🐸']); fx(c, p[0], p[1] - 20, { dx: rand(-140, 140), dy: -150, dur: 1300, size: 6 }); sfx.squeak(); face('wow', 1500); pose('cheer', 1100); moves.hop(); say(`Jé, tam něco je! ${c}`, 2200, 'happy'); },
+  flower: (n, p) => { bounce(n, 16); fx(pick(['🐝', '🦋']), p[0], p[1] - 20, { dx: rand(-90, 90), dy: -160, dur: 1500 }); bump({ mood: 1 }); happy(1300); pose('shy', 1100); say(pick(['Voní!', 'Natrhám si kytici.', 'Hepčí! Pyl.'])); },
+  mushroom: (n) => { bounce(n, 22); sfx.boing(); face('meh', 1400); pose('hips', 1100); say(pick(['Tu nejez. Vážně.', 'Muchomůrka. Hezká, ale zrádná.'])); },
   snowman: (n, p) => {
     wiggle(n); fx('⚪', p[0], p[1] - 80, { dx: 512 - p[0], dy: MOUTH[1] - p[1] + 80, dur: 500, size: 5, ease: 'ease-in' });
     setTimeout(() => { if (!n.isConnected) return; moves.shake(600); pose('flail', 700); face('angry', 1800); sfx.eek(); burst(['❄️'], MOUTH[0], MOUTH[1], 5, 120); say('Hej! On po mně hodil kouli!', 2600, false); }, 480);
   },
-  umbrella: (n) => { wiggle(n); say(pick(['Stín! Konečně.', 'Tady si lehnu a nikdo mě nenajde.'])); },
-  shell: (n, p) => { bounce(n, 14); fx('🦀', p[0], p[1], { dx: -420, dy: -10, dur: 2200, size: 6, ease: 'linear' }); sfx.squeak(); face('wow', 1600); say('Krab! Ať mě neštípne!', 2400, false); sfx.eek(); },
-  sea: (n, p) => { sfx.splash(); fx('🐬', p[0], 700, { dx: 160, dy: -220, dur: 1300, size: 8, rot: 60 }); burst(['💦'], p[0], 690, 4, 90); bump({ mood: 2 }); sfx.wow(); face('wow', 1500); say(pick(['Delfín!', 'Šplouch! Jdu se koupat.']), 2400, false); },
+  umbrella: (n) => { wiggle(n); happy(1300, false); pose('hips', 1100); say(pick(['Stín! Konečně.', 'Tady si lehnu a nikdo mě nenajde.'])); },
+  shell: (n, p) => { bounce(n, 14); fx('🦀', p[0], p[1], { dx: -420, dy: -10, dur: 2200, size: 6, ease: 'linear' }); sfx.squeak(); face('wow', 1600); pose('flail', 900); say('Krab! Ať mě neštípne!', 2400, false); sfx.eek(); },
+  sea: (n, p) => { sfx.splash(); fx('🐬', p[0], 700, { dx: 160, dy: -220, dur: 1300, size: 8, rot: 60 }); burst(['💦'], p[0], 690, 4, 90); bump({ mood: 2 }); sfx.wow(); face('wow', 1500); pose('cheer', 1200); say(pick(['Delfín!', 'Šplouch! Jdu se koupat.']), 2400, false); },
 
   board: (n) => {
     const shapes = ['M30,190 L90,150 L150,165 L210,100 L290,60', 'M30,190 L90,120 L150,90 L210,50 L290,24', 'M30,60 L90,90 L150,120 L210,170 L290,196'];
     const i = cycle(n, 'i', shapes.length);
     n.querySelector('.boardline').setAttribute('d', shapes[i]);
-    if (i === 2) { sfx.sigh(); face('sad', 2200); say('Ajaj. Tohle na poradě neukážu.', 2600, false); } else { sfx.yay(); say(['Roste to podle plánu.', 'Zisk +200 %! Prémie!'][i], 2600, false); }
+    if (i === 2) { sfx.sigh(); face('sad', 2200); pose('shy', 1400); say('Ajaj. Tohle na poradě neukážu.', 2600, false); } else { sfx.yay(); happy(1400); face('grin', 1500); pose('cheer', 1200); say(['Roste to podle plánu.', 'Zisk +200 %! Prémie!'][i], 2600, false); }
   },
   todo: (n) => {
     const open = [...n.querySelectorAll('.todo')].filter((t) => t.textContent.startsWith('☐'));
-    if (!open.length) { n.querySelectorAll('.todo').forEach((t) => { t.textContent = t.textContent.replace('☑', '☐'); }); return say('A zase od začátku…', 2400, 'sad'); }
-    open[0].textContent = open[0].textContent.replace('☐', '☑'); sfx.pop(); bump({ mood: 3 });
+    if (!open.length) { n.querySelectorAll('.todo').forEach((t) => { t.textContent = t.textContent.replace('☑', '☐'); }); face('sad', 1800); pose('yawn', 1200); return say('A zase od začátku…', 2400, 'sad'); }
+    open[0].textContent = open[0].textContent.replace('☐', '☑'); sfx.pop(); bump({ mood: 3 }); happy(1200); face('grin', 1200); pose('wave', 1000);
     if (open.length === 1) { FUN[0].run(); say('Hotovo! Svět zachráněn. 🎉', 2800, false); } else say('Odškrtnuto. Krásný pocit.');
   },
-  clock: (n) => { wiggle(n); const d = new Date(), h = d.getHours(); say(`Je ${h}:${String(d.getMinutes()).padStart(2, '0')}. ${h >= 17 || h < 7 ? 'Proč jsem ještě v práci?!' : 'Do padla daleko…'}`, 3000); },
+  clock: (n) => { wiggle(n); const d = new Date(), h = d.getHours(); face('meh', 1600); pose('hips', 1200); say(`Je ${h}:${String(d.getMinutes()).padStart(2, '0')}. ${h >= 17 || h < 7 ? 'Proč jsem ještě v práci?!' : 'Do padla daleko…'}`, 3000); },
   monitor: (n) => {
     const [pic, line] = SCREENS[cycle(n, 'i', SCREENS.length)];
     n.querySelector('.screen').style.display = pic ? 'none' : '';
     n.querySelector('.scrtxt').textContent = pic || '';
     n.querySelector('.scr').setAttribute('fill', pic === '💀' ? '#2f6fe0' : '#f4f8ff');
-    sfx.key(); if (pic === '💀') { sfx.eek(); pose('flail', 900); face('wow', 1800); }
+    sfx.key(); if (pic === '💀') { sfx.eek(); pose('flail', 900); face('wow', 1800); } else { face('grin', 1200); }
     say(line, 2800, pic === '💀' ? false : undefined);
   },
-  keys: (n, p) => { for (let i = 0; i < 12; i++) setTimeout(sfx.key, i * 55); burst(['A', 'S', 'D', 'F', '@', '!'], p[0], p[1], 6, 110); say(pick(['Ťuky ťuk… odesláno!', 'Odpovědět všem. Jejda.', '120 úhozů za minutu!'])); },
+  keys: (n, p) => { for (let i = 0; i < 12; i++) setTimeout(sfx.key, i * 55); burst(['A', 'S', 'D', 'F', '@', '!'], p[0], p[1], 6, 110); face('grin', 1200); moves.wobble(); say(pick(['Ťuky ťuk… odesláno!', 'Odpovědět všem. Jejda.', '120 úhozů za minutu!'])); },
   mug: (n) => feed(DRINK[0], screenPoint(n)),
-  phone: (n) => { sfx.ring(); wiggle(n); setTimeout(() => n.isConnected && say(pick(['Haló? Ne, to se musí eskalovat.', 'Ano. Ano. Ne. Zavolám později.', 'Omyl? Tak proč voláte!']), 2800), 800); },
+  phone: (n) => { sfx.ring(); wiggle(n); pose('hips', 1500); face('meh', 1800); setTimeout(() => n.isConnected && say(pick(['Haló? Ne, to se musí eskalovat.', 'Ano. Ano. Ne. Zavolám později.', 'Omyl? Tak proč voláte!']), 2800), 800); },
   inbox: () => startGame('inbox'),
-  duck: (n) => { sfx.squeak(); bounce(n, 24); say(pick(['Kvák. Kachnička ví všechno.', 'Můj nejlepší poradce.']), 2400, 'happy'); },
+  duck: (n) => { sfx.squeak(); bounce(n, 24); happy(1200); face('grin', 1200); pose('wave', 1000); say(pick(['Kvák. Kachnička ví všechno.', 'Můj nejlepší poradce.']), 2400, 'happy'); },
 
-  bars: () => { sfx.bleh(); face('meh', 1800); say(pick(['Šplhat? Dneska ne.', 'Žebřiny jsou na věšení ručníků.']), 2400, false); },
-  counter: () => { state.reps = 0; $('#reps').textContent = 0; sfx.pop(); say('Od nuly! To předtím se nepočítalo.'); },
+  bars: () => { sfx.bleh(); face('meh', 1800); pose('hips', 1200); say(pick(['Šplhat? Dneska ne.', 'Žebřiny jsou na věšení ručníků.']), 2400, false); },
+  counter: () => { state.reps = 0; $('#reps').textContent = 0; sfx.pop(); pose('hips', 1000); face('grin', 1200); say('Od nuly! To předtím se nepočítalo.'); },
   rope: () => startGame('rope'),
   scale: (n) => { wiggle(n); sfx.hmpf(); pose('hips', 1300); face('angry', 1800); say('Na tu si nestoupnu. Nikdy.', 2600, false); },
-  dumbbell: (n) => { bounce(n, 40); pose('lift', 2400); bump({ energy: -4, mood: 4, drink: -3 }); burst(['💪'], HEAD_TOP[0] + 180, HEAD_TOP[1] + 200, 2, 60); say(pick(['Hrrr! Jako pírko!', 'A raz! A dva!', 'Tohle zítra ucítím.']), 2400, 'angry'); },
+  dumbbell: (n) => { bounce(n, 40); pose('lift', 2400); face('grin', 1600); bump({ energy: -4, mood: 4, drink: -3 }); burst(['💪'], HEAD_TOP[0] + 180, HEAD_TOP[1] + 200, 2, 60); say(pick(['Hrrr! Jako pírko!', 'A raz! A dva!', 'Tohle zítra ucítím.']), 2400, 'angry'); },
   bottle: (n) => feed(DRINK[2], screenPoint(n)),
 
-  discoball: (n, p) => { const party = el.backdrop.classList.toggle('party'); burst(['✨', '🪩', '💫'], p[0], p[1], 9, 300); sfx.chime(5); say(party ? 'Párty režim!' : 'Trochu zpomalíme.', 2200, 'happy'); },
-  speaker: (n) => { bounce(n, 18); moves.quake(); [0, 0.14, 0.28, 0.42].forEach((d) => tone(120, 0.14, { to: 40, vol: 0.25, delay: d })); bump({ mood: 2 }); say(pick(['Cítíte ten bas?!', 'Sousedi to milují.']), 2200, 'happy'); },
+  discoball: (n, p) => { const party = el.backdrop.classList.toggle('party'); burst(['✨', '🪩', '💫'], p[0], p[1], 9, 300); sfx.chime(5); happy(1500); face('grin', 1500); pose('cheer', 1300); say(party ? 'Párty režim!' : 'Trochu zpomalíme.', 2200, 'happy'); },
+  speaker: (n) => { bounce(n, 18); moves.quake(); [0, 0.14, 0.28, 0.42].forEach((d) => tone(120, 0.14, { to: 40, vol: 0.25, delay: d })); bump({ mood: 2 }); face('wow', 1400); pose('cheer', 1200); say(pick(['Cítíte ten bas?!', 'Sousedi to milují.']), 2200, 'happy'); },
   tile: (n) => flashTile(Number(n.dataset.i)),
 
   tv: () => { const [pic, line, sound] = CHANNELS[cycle(el.front.querySelector('[data-act="tv"]'), 'i', CHANNELS.length)]; $('#tvch').textContent = pic; sfx.key(); sfx[sound](); if (sound === 'eek') { moves.shake(700); pose('flail', 800); face('wow', 1600); } if (sound === 'sigh') face('meh', 1800); if (sound === 'wow') face('wow', 1500); if (sound === 'yay') pose('cheer', 1000); if (sound === 'yum') bump({ food: -4 }); say(line, 2800, false); },
@@ -2829,16 +3053,16 @@ const PROPS = {
   pillow: (n) => {
     sfx.swish();
     n.animate([{ translate: '0 0' }, { translate: '0 -240px', rotate: '200deg' }, { translate: '0 0', rotate: '360deg' }], { duration: 900, easing: 'ease-in-out' });
-    setTimeout(() => { moves.wobble(); sfx.laugh(); bump({ mood: 4 }); say('Polštářová bitva!', 2200, false); }, 400);
+    setTimeout(() => { moves.wobble(); sfx.laugh(); happy(1400); face('grin', 1400); pose('cheer', 1100); bump({ mood: 4 }); say('Polštářová bitva!', 2200, false); }, 400);
   },
-  couch: () => { moves.hop(); say(pick(['Gauč je posvátné místo.', 'Odsud mě nikdo nedostane.'])); },
+  couch: () => { moves.hop(); happy(1300, false); pose('shy', 1100); say(pick(['Gauč je posvátné místo.', 'Odsud mě nikdo nedostane.'])); },
 
   stick: (n) => fetchStick(n),
 
-  moon: (n) => { wiggle(n); fx('🌠', 900, 80, { dx: -700, dy: 300, dur: 1100, size: 8, ease: 'ease-in' }); sfx.chime(3); if (state.asleep) say('Mmm… přej si něco…', 2600); else { face('wow', 1500); sfx.wow(); say('Padá hvězda! Rychle si něco přej!', 2800, false); } },
+  moon: (n) => { wiggle(n); fx('🌠', 900, 80, { dx: -700, dy: 300, dur: 1100, size: 8, ease: 'ease-in' }); sfx.chime(3); if (state.asleep) say('Mmm… přej si něco…', 2600); else { face('wow', 1500); pose('cheer', 1200); sfx.wow(); say('Padá hvězda! Rychle si něco přej!', 2800, false); } },
   star: (n, p) => { sfx.chime(Math.floor(rand(0, 6))); burst(['✨'], p[0], p[1], 3, 50); },
   bedpillow: () => say('Zzz… měkoučký…', 2000),
-  teddy: (n) => { bounce(n, 26); hearts(3); bump({ mood: 3 }); say('Mmm… méďa…', 2200); },
+  teddy: (n) => { bounce(n, 26); hearts(3); bump({ mood: 3 }); happy(1400); pose('shy', 1200); say('Mmm… méďa…', 2200); },
   alarm: (n) => {
     sfx.ring(); wiggle(n);
     const rested = stats.energy > 55;
@@ -3088,8 +3312,9 @@ const FUN = [
 
 /* ---------- controls ---------- */
 const TABS = [
-  { id: 'food', icon: '🍽️', name: 'Jídlo' }, { id: 'care', icon: '🛁', name: 'Péče' }, { id: 'wear', icon: '👗', name: 'Šatník' },
-  { id: 'act', icon: '🎬', name: 'Činnosti' }, { id: 'fun', icon: '🎮', name: 'Zábava' }, { id: 'wish', icon: '🌟', name: 'Přání' },
+  { id: 'food', icon: '🍽️', name: 'Jídlo' }, { id: 'wear', icon: '👗', name: 'Šatník' },
+  { id: 'act', icon: '🎬', name: 'Činnosti' }, { id: 'fun', icon: '🎮', name: 'Zábava' },
+  { id: 'wish', icon: '🌟', name: 'Přání' }, { id: 'diary', icon: '📔', name: 'Deníček' },
 ];
 // The mini-games, each in its own scene; starting one from the tray takes her there first.
 const PLAY = [
@@ -3139,13 +3364,13 @@ function renderTray() {
   el.tabs.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b.dataset.id === state.tab));
   el.tray.replaceChildren();
   const groups = [], group = (title, fill) => groups.push({ title, fill }), t = state.tab;
+  if (t === 'diary') { renderDiaryTray(el.tray); return; }
   const foods = (items) => (add) => items.forEach((it) => draggable(add(button(it.icon, it.name)), it));
   if (t === 'food') {
     group('Hlavní jídla', foods(FOOD.filter((f) => MAINS.includes(f.name))));
     group('Sladké a zobání', foods(FOOD.filter((f) => !MAINS.includes(f.name))));
     group('Pití', foods(DRINK)); group('Drinky', foods(ALCO));
   }
-  if (t === 'care') careGroups(group);
   if (t === 'wear') {
     const mine = OUTFITS.filter((o) => !o.locked || owns(o.id));
     for (const [title, list] of [['Oblečení', mine.filter((o) => !o.season && !o.locked)], ['Z obchodu a dárky', mine.filter((o) => o.locked)], ['Podle počasí (mění i krajinu)', mine.filter((o) => o.season)]]) {
@@ -3153,7 +3378,10 @@ function renderTray() {
       group(title, (add) => list.forEach((o) => add(button(o.icon, o.name, o.id === state.outfit), () => setOutfit(o.id))));
     }
   }
-  if (t === 'act') group('Kam půjdeme?', (add) => SCENES.forEach((s) => add(button(s.icon, s.name, s.id === state.scene), () => setScene(s.id)).classList.toggle('closed', isClosed(s.id))));
+  if (t === 'act') {
+    group('Kam půjdeme?', (add) => SCENES.forEach((s) => add(button(s.icon, s.name, s.id === state.scene), () => setScene(s.id)).classList.toggle('closed', isClosed(s.id))));
+    careGroups(group);
+  }
   if (t === 'fun') {
     group('Hry', (add) => PLAY.forEach((p) => add(button(p.icon, p.name), () => goPlay(p)).classList.toggle('closed', isClosed(p.scene))));
     group('Legrace', (add) => FUN.forEach((f) => { const b = button(f.icon, f.name); add(b, () => { if (!game && !touched() && !weak()) { f.run(centre(b)); track('fun', f); } }); }));
@@ -3180,30 +3408,51 @@ TABS.forEach((t) => {
   b.addEventListener('click', () => { state.tab = t.id; sfx.pop(); renderTray(); });
   el.tabs.append(b);
 });
+$('#diaryBtn')?.addEventListener('click', openDiary);
 
 function renderMute() { el.mute.textContent = state.muted ? '🔇' : '🔊'; }
 el.mute.addEventListener('click', () => { state.muted = !state.muted; store.set('muted', state.muted ? '1' : '0'); renderMute(); sfx.pop(); });
 
 /* ---------- writing to Lin (OpenRouter); the message box is always there ---------- */
 // The private build carries the key from openrouter_key.txt. The public page carries none
-// (a published key gets revoked): there the key arrives once in the link, as #k=…, or is
-// pasted into the help dialog, and stays in this browser only.
+// (a published key gets revoked): there the key arrives once in the link (#k=… or ?k=…),
+// is pasted into the help dialog, or is pasted straight into the chat input.
+function cleanKey(raw) {
+  if (!raw) return '';
+  const m = String(raw).match(/sk-or-v1-[a-z0-9]+|sk-or-[a-z0-9_-]{12,}/i);
+  return m ? m[0] : String(raw).replace(/^Bearer\s+/i, '').trim();
+}
+function persistKey(k) {
+  store.set('key', k);
+  if (typeof caches !== 'undefined') {
+    caches.open('lin-key').then((c) => (k ? c.put('/__lin_key', new Response(k)) : c.delete('/__lin_key'))).catch(() => {});
+  }
+}
 function takeLinkKey() {
-  const m = location.hash.match(/[#&]k=([^&]+)/);
+  const m = location.hash.match(/[#&]k=([^&]+)/) || location.search.match(/[?&]k=([^&]+)/);
   if (!m) return '';
-  const key = decodeURIComponent(m[1]).trim();
-  store.set('key', key);
-  history.replaceState(null, '', location.pathname + location.search);
+  const key = cleanKey(decodeURIComponent(m[1]));
+  if (!key) return '';
+  persistKey(key);
+  try { history.replaceState(null, '', location.pathname); } catch { /* file:// */ }
   return key;
 }
-takeLinkKey();
+const initialLinkKey = takeLinkKey();
 const LLM = {
-  url: window.LIN_PROXY || 'https://openrouter.ai/api/v1/chat/completions', key: window.LIN_KEY || store.get('key', ''), proxied: !!window.LIN_PROXY,
+  url: window.LIN_PROXY || 'https://openrouter.ai/api/v1/chat/completions',
+  key: window.LIN_KEY || initialLinkKey || store.get('key', ''),
+  proxied: !!window.LIN_PROXY,
   // free models come and go (overloaded, or gone at the provider), so keep several in line,
   // best Czech first: Gemma when it isn't overloaded, then Nemotron Ultra, which is nearly always up
   models: ['google/gemma-4-31b-it:free', 'nvidia/nemotron-3-ultra-550b-a55b:free', 'google/gemma-4-26b-a4b-it:free',
     'dots-studio/dots-3-note-preview:free', 'nvidia/nemotron-3-super-120b-a12b:free'],
 };
+if (!LLM.key && typeof caches !== 'undefined') {
+  caches.open('lin-key').then((c) => c.match('/__lin_key')).then((r) => (r ? r.text() : '')).then((k) => {
+    const ck = cleanKey(k);
+    if (ck && !LLM.key) { LLM.key = ck; store.set('key', ck); keyStatus(); }
+  }).catch(() => {});
+}
 const talk = { history: [], busy: false };
 const level = (v, low, mid, high) => (v < 25 ? low : v < 60 ? mid : high);
 // The character lives in persona.js; here she learns what is going on in the game right now.
@@ -3224,7 +3473,8 @@ const PHASE_CS = { morning: 'ráno', day: 'den', evening: 'večer', night: 'noc'
 const DOING = {
   home: 'doma a nic zvláštního neděláš', work: 'v práci u počítače', sport: 'na cvičení a jsi zadýchaná',
   dance: 'na párty a tancuješ', tv: 'na gauči u televize', walk: 'venku se psem',
-  chat: 'na mobilu, píšeš si s klukama a škádlíš je', sleep: 'v posteli a spíš; odpovídej rozespale a krátce, štve tě, že tě někdo budí',
+  chat: 'na mobilu, píšeš si s klukama a škádlíš je', bath: 'v koupelně v županu a děláš si wellness',
+  sleep: 'v posteli a spíš; odpovídej rozespale a krátce, štve tě, že tě někdo budí',
 };
 // worth trying another model: overloaded, gone at the provider, or refused for that model only
 const BUSY = [403, 404, 408, 429, 500, 502, 503, 529];
@@ -3267,15 +3517,35 @@ const TALK_FAIL = {
   429: 'Uf, teď je na lince plno. Zkus to za chvilku!', 404: 'Uf, teď je na lince plno. Zkus to za chvilku!', 502: 'Spojení zlobí. Zkus to za chvilku!', 503: 'Spojení zlobí. Zkus to za chvilku!', offline: 'Nemám signál… zkus to za chvíli.',
 };
 const TALK_MOOD = {
-  happy: () => happy(1600), grin: () => { happy(1400); face('grin', 1800); }, sad: () => { face('sad', 3000); sfx.sigh(); },
-  angry: () => { face('angry', 2600); pose('hips', 2200); }, wow: () => { face('wow', 2000); sfx.wow(); }, meh: () => face('meh', 2600), neutral: () => {},
+  happy: () => { happy(1800); pose(pick(['cheer', 'wave']), 1300); },
+  grin: () => { happy(1500); face('grin', 2000); pose(pick(['hips', 'wave']), 1300); },
+  sad: () => { face('sad', 3000); pose('shy', 1600); sfx.sigh(); },
+  angry: () => { face('angry', 2600); pose('hips', 2200); moves.wobble(); },
+  wow: () => { face('wow', 2000); pose('flail', 1100); sfx.wow(); },
+  meh: () => { face('meh', 2600); pose('hips', 1500); },
+  neutral: () => { pose(pick(['wave', 'hips', null]), 1100); },
 };
 // With { away } she starts the conversation herself: the player has just come back after a while.
 async function ask(text, { away } = {}) {
   text = text.trim();
   if (talk.busy || game || (!text && !away)) return;
-  if (!away) { touched(); if (weak()) return; }
-  if (!LLM.key && !LLM.proxied) return say('Na povídání mi chybí klíč. Dá se vložit v nápovědě ❔.', 4200);
+  if (!away) {
+    touched();
+    // If the user pasted an OpenRouter key or #k= link straight into the chat input, save it right away!
+    if (/sk-or-/i.test(text)) {
+      const k = cleanKey(text);
+      if (k) { saveUserKey(k); happy(1600); face('grin', 1800); pose('cheer', 1400); sfx.yay(); return say('Klíč mám uložený! Tak povídej 💬', 3200, 'happy'); }
+    }
+    if (weak()) return;
+  }
+  if (!LLM.key && !LLM.proxied) {
+    say('Na povídání mi chybí klíč. Vlož ho prosím dole v nápovědě ❔ nebo přímo do chatu.', 4500);
+    if (!away && helpBox && !helpBox.open) {
+      helpBox.showModal();
+      setTimeout(() => { keyIn?.scrollIntoView({ behavior: 'smooth', block: 'center' }); keyIn?.focus(); }, 150);
+    }
+    return;
+  }
   talk.busy = true; el.talkBar.classList.add('busy');
   if (state.sulking) unsulk('');
   talk.history.push({ role: 'user', content: away ? `(Vracím se po ${Math.round(away)} hodinách. Ty začínáš: pozdrav mě podle toho, jak se máš, klidně si rýpni.)` : text.slice(0, 300) });
@@ -3289,12 +3559,13 @@ async function ask(text, { away } = {}) {
       .map((l) => (l.length > 200 ? l.slice(0, 197) + '…' : l));
     if (!lines.length) throw new Error('empty');
     talk.history.push({ role: 'assistant', content: lines.join('\n') });
-    pose(pick(['wave', null, null]), 1200);
-    (TALK_MOOD[tag?.[1].toLowerCase()] || TALK_MOOD.neutral)();
+    const moodFn = TALK_MOOD[tag?.[1].toLowerCase()] || TALK_MOOD.neutral;
     bump({ mood: 3 });
     if (!away) track('talk');
     for (const [i, line] of lines.entries()) {
       const ms = clamp(line.length * 75, 2600, 12000);
+      moodFn();
+      idleEmote(line);
       say(line, ms + 400);
       if (i < lines.length - 1) await new Promise((done) => setTimeout(done, ms));
     }
@@ -3309,24 +3580,64 @@ async function ask(text, { away } = {}) {
 $('#talkIn').addEventListener('input', () => { state.lastTouch = Date.now(); });
 $('#talkForm').addEventListener('submit', (e) => { e.preventDefault(); const input = $('#talkIn'); ask(input.value); input.value = ''; });
 
-const keyIn = $('#keyIn'), keyNote = $('#keyNote');
+const keyIn = $('#keyIn'), keyNote = $('#keyNote'), keyClear = $('#keyClear');
+function keyStatus(msg) {
+  const hasCustom = !!store.get('key', '');
+  if (keyClear) keyClear.hidden = !hasCustom;
+  if (keyIn && !keyIn.value) keyIn.placeholder = LLM.key ? `Uloženo (${LLM.key.slice(0, 9)}…${LLM.key.slice(-4)})` : 'sk-or-v1-…';
+  keyNote.textContent = msg || (window.LIN_KEY && !hasCustom ? 'Klíč je součástí této kopie.' : LLM.key ? 'Klíč je uložený v tomto prohlížeči.' : 'Zatím žádný klíč – zprávy nefungují.');
+}
+function saveUserKey(raw, silent = false) {
+  const k = cleanKey(raw);
+  if (!k) return false;
+  LLM.key = k;
+  persistKey(k);
+  keyStatus('Uloženo! Zkus Lin něco napsat.');
+  if (!silent) sfx.pop();
+  return true;
+}
 addEventListener('hashchange', () => {
   const key = takeLinkKey();
   if (!key) return;
   LLM.key = key; keyStatus(); say('Klíč mám! Tak povídej.', 3000);
 });
-const keyStatus = () => { keyNote.textContent = window.LIN_KEY ? 'Klíč je součástí této kopie.' : LLM.key ? 'Klíč je uložený v tomto prohlížeči.' : 'Zatím žádný klíč – zprávy nefungují.'; };
+keyIn.addEventListener('input', () => {
+  const k = cleanKey(keyIn.value);
+  if (k.startsWith('sk-or-') && k.length > 20) saveUserKey(k, true);
+});
+keyIn.addEventListener('change', () => {
+  const k = cleanKey(keyIn.value);
+  if (k) { saveUserKey(k, true); keyIn.value = ''; }
+});
 $('#keyForm').addEventListener('submit', (e) => {
   e.preventDefault();
-  const k = keyIn.value.trim(); keyIn.value = '';
-  LLM.key = k || window.LIN_KEY || ''; store.set('key', k); keyStatus();
-  keyNote.textContent = k ? 'Uloženo. Zkus jí něco napsat.' : 'Klíč smazán.';
+  const k = cleanKey(keyIn.value);
+  keyIn.value = '';
+  if (k) {
+    saveUserKey(k);
+    say('Klíč mám uložený! Tak povídej 💬', 3000, 'happy');
+  } else if (LLM.key) {
+    keyStatus('Klíč je připravený.');
+  } else {
+    keyStatus('Vlož prosím klíč začínající sk-or-…');
+  }
+});
+keyClear?.addEventListener('click', () => {
+  keyIn.value = '';
+  persistKey('');
+  LLM.key = window.LIN_KEY || '';
+  sfx.pop();
+  keyStatus(LLM.key ? 'Vlastní klíč smazán (použije se výchozí).' : 'Klíč smazán.');
 });
 keyStatus();
 
 const helpBox = $('#helpBox');
-$('#help').addEventListener('click', () => { sfx.pop(); helpBox.showModal(); });
+$('#help').addEventListener('click', () => { sfx.pop(); keyStatus(); helpBox.showModal(); });
 $('#helpClose').addEventListener('click', () => helpBox.close());
+helpBox.addEventListener('close', () => {
+  const k = cleanKey(keyIn.value);
+  if (k) { keyIn.value = ''; saveUserKey(k, true); }
+});
 helpBox.addEventListener('click', (e) => { if (e.target === helpBox) helpBox.close(); });
 
 /* ---------- install to the home screen ---------- */
@@ -3360,7 +3671,7 @@ const PHASE_LINES = {
 let clockWas = clockPhase();
 setInterval(() => {
   const now = clockPhase();
-  if (now === clockWas || game) return;
+  if (now === clockWas || game || state.washing) return;
   clockWas = now; phaseOverride = null;
   if (isClosed(state.scene)) {
     const wasWork = state.scene === 'work';
